@@ -4,10 +4,11 @@ using System.Text;
 
 namespace PeshoFy.Classes
 {
-    internal class Listener : Person
+    internal class Listener : User
     {
         private List<Song> favoriteSongs;
         private List<PlayList> listOfPlayLists;
+        private Guid userId;
         public Listener(string username, string password, string fullName, DateTime dateOfBirth, List<string> genres, List<Song> favoriteSongs, List<PlayList> listOfPlayLists) : base(username, password, fullName, dateOfBirth, genres)
         {
             this.FavoriteSongs = favoriteSongs;
@@ -16,7 +17,15 @@ namespace PeshoFy.Classes
 
         public List<Song> FavoriteSongs { get => favoriteSongs; set => favoriteSongs = value; }
         public List<PlayList> ListOfPlayLists { get => listOfPlayLists; set => listOfPlayLists = value; }
-
+        public Guid UserId
+        {
+            get => userId;
+            set
+            {
+                //value = Guid.NewGuid();
+                userId = Guid.NewGuid();
+            }
+        }
         public string GetInfo()
         {
             string favoriteSongs= string.Empty;
@@ -30,7 +39,7 @@ namespace PeshoFy.Classes
             {
                 listOfPlayLists += playList.Name + "\n";
             }
-            return string.Join("\n", Username, FullName, DateOfBirth, string.Join(" ", Genres), string.Join(" ", favoriteSongs), string.Join(" ", listOfPlayLists));
+            return string.Join("\n", FullName, DateOfBirth, string.Join(" ", Genres), string.Join(" ", favoriteSongs), string.Join(" ", listOfPlayLists));
         }
     }
 }
