@@ -8,19 +8,9 @@ namespace PeshoFy
     {
         static void Main(string[] args)
         {
-            string welcome = "Welcome to the our Console Application\nChoose one of the following options below\n";
-            Console.WriteLine(welcome);
-            string options = "[1] login\n[2] register";
-            Console.WriteLine(options);
-            Console.Write("Input your choice: ");
-            int input = int.Parse(Console.ReadLine());
+            MenuController menu = new MenuController();
+            menu.Menu();
 
-            if (input == 2)
-            {
-                Register register = new Register();
-                register.UserRegister();
-               
-            }
             /*//Class Artist Testing
             List<PlayList> playLists = new List<PlayList>();
             List<Album> albums = new List<Album>();

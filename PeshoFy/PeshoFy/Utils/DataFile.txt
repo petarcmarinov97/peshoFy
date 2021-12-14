@@ -2,3 +2,13 @@
 <user><petarcm97>(123456){listener}{eaa8e050-e8eb-4b44-98cf-bf8b2e776d90}</user>
 <user><petarcm97>(123456){listener}{7015a04c-9fc9-4c72-8d6f-23f5d78f1c7c}</user>
 <user><ivan97>(123456){listener}{1fad7128-2be4-4822-9d56-1f5a5f05a591}</user>
+<user><petarcm>(123456){listener}{ed56cad3-c3cb-43f0-8861-3bdd3621fc11}</user>
+<user><gosho123>(123456){listener}{3a25fd0d-692c-4153-974a-81ed13ffda3c}</user>
+<user><petar>(123456){listener}{7fd5350e-f2bc-4484-a93a-d4f4a04e89c5}</user>
+<user><petarcm971>(123456){listener}{557b3f1f-208b-43d0-9ff6-a520e66409ef}</user>
+<user><goshko97>(123){listener}{5d68c5ab-3d6a-4dbf-a3c8-bc1332955c31}</user>
+<user><ivanko97>(123){listener}{6df06a2f-e9bd-4929-b6f8-0acaaf229f54}</user>
+<user><lok>(123){listener}{b550201c-1a6e-414b-b9d8-2cd98cb6e703}</user>
+<user><asd>(123){listener}{a6b4c8a5-1a92-4125-9787-4c8efa92bb8a}</user>
+<user><Vankata97>(123456){artist}{fbd35b2b-d221-43ea-a956-aa78353e8f2d}</user>
+<user><KocoTigura97>(123456)[14/10/1997]{artist}{5832e73e-2d68-459c-aea6-4555086957c1}</user>
