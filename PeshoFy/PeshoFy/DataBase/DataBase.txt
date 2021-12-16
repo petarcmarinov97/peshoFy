@@ -1,0 +1,8 @@
+<listener><drago><D Ivanov>[14/10/1997](genres: [])(likedSongs: [])(playlists: ['Obseben', 'Yarost', 'Ebacha', 'Tigura])</listener>
+<listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: [])</listener>
+<listener><petarcm97><Petar Marinov>[14/10/1997](genres: ['rap', 'pop'])(likedSongs: ['Maika mu', 'Izrudi'])(playlists: [Payner Mix 2021])</listener>
+<artist><Stenli><Stanislav Slanev>[12/8/1959](genres: ['pop', 'rock'])(albums: ['Obseben'])
+<listener><ivan97><Ivan Petkov>[14/10/1997](genres: [])(likedSongs: [])(playlists: [])</listener>
+
+
+<artist><gosho><Gosho Draganov>[14/10/1997](genres: [])(albums: [])</artist>
