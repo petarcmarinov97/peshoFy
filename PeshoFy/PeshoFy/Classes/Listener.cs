@@ -7,39 +7,23 @@ namespace PeshoFy.Classes
     internal class Listener : User
     {
         private List<Song> favoriteSongs;
-        private List<PlayList> listOfPlayLists;
-        private Guid userId;
-        public Listener(string username, string password, string fullName, DateTime dateOfBirth, List<string> genres, List<Song> favoriteSongs, List<PlayList> listOfPlayLists) : base(username, password, fullName, dateOfBirth, genres)
+        private List<PlayList> playLists;
+        public Listener(string username, string password, string fullName, string dateOfBirth, List<string> genres, List<Song> favoriteSongs, List<PlayList> playLists) : base(username, password, fullName, dateOfBirth, genres)
         {
             this.FavoriteSongs = favoriteSongs;
-            this.ListOfPlayLists = listOfPlayLists;
+            this.PlayLists = playLists;
         }
 
         public List<Song> FavoriteSongs { get => favoriteSongs; set => favoriteSongs = value; }
-        public List<PlayList> ListOfPlayLists { get => listOfPlayLists; set => listOfPlayLists = value; }
-        public Guid UserId
-        {
-            get => userId;
-            set
-            {
-                //value = Guid.NewGuid();
-                userId = Guid.NewGuid();
-            }
-        }
-        public string GetInfo()
-        {
-            string favoriteSongs= string.Empty;
-            foreach(Song song in FavoriteSongs)
-            {
-                favoriteSongs+=song.Name+"\n";
-            }
+        public List<PlayList> PlayLists { get => playLists; set => playLists = value; }
 
-            var listOfPlayLists = string.Empty;
-            foreach(PlayList playList in ListOfPlayLists)
+        public void GetPlayLists()
+        {
+            foreach(PlayList playList in playLists)
             {
-                listOfPlayLists += playList.Name + "\n";
+                string result = $"<playlists><" + playList.Name + $"</playlists>"; ;
+                Console.WriteLine(result);
             }
-            return string.Join("\n", FullName, DateOfBirth, string.Join(" ", Genres), string.Join(" ", favoriteSongs), string.Join(" ", listOfPlayLists));
         }
     }
 }

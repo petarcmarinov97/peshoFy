@@ -8,32 +8,23 @@ namespace PeshoFy.Classes
     {
         private string album;
         private string genre;
-        private DateTime releaseDate;
-        private List<Guid> usersId;
-        private Guid currentId;
+        private string releaseDate;
+        private Artist artist;
 
-        public Song(string name, string duration, string album, Guid userId, string genre, DateTime releaseDate) : base(name, duration)
+        public Song(string name) : base(name)
+        {
+
+        }
+        public Song(string name, string duration, string album, Artist artist, string genre, string releaseDate) : base(name, duration)
         {
             this.Album = album;
+            this.Artist = artist;
             this.Genre = genre;
             this.ReleaseDate = releaseDate;
-            this.currentId = userId;
         }
-
-        //Записваме default value ако няма подаден параметър
-        public List<Guid> UsersId
-        {
-            get => usersId;
-            set
-            {
-                value.Add(currentId);
-                usersId = value;
-            }
-        }
-        public string Genre { get => genre; set => genre = value; }
         public string Album { get => album; set => album = value; }
-        public DateTime ReleaseDate { get => releaseDate; set => releaseDate = value; }
-
-
+        public string Genre { get => genre; set => genre = value; }
+        public string ReleaseDate { get => releaseDate; set => releaseDate = value; }
+        public Artist Artist { get => artist; set => artist = value; }
     }
 }

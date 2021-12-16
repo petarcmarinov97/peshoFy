@@ -8,33 +8,48 @@ using System.Threading.Tasks;
 
 namespace PeshoFy.Classes
 {
-    internal class Login
+    class Login
     {
-        static string filePath = "C:\\Git Repos\\peshoFy\\PeshoFy\\PeshoFy\\Utils\\DataFile.txt";
         static string username = string.Empty;
         static string password = string.Empty;
         static bool HasSuccess = false;
+        static string accountType = string.Empty;
         public static void UserLogin()
         {
             FillLoginForm();
         }
-
         public static void FillLoginForm()
         {
             Console.WriteLine("Login Form");
 
             WriteUserName();
             WritePassword();
-            ReadUsers(username, password);
+            HasSuccess = ReadData.LoginCheck(username, password);
+
             while (HasSuccess == false)
             {
                 Console.WriteLine("Wrong username or password. Try again: ");
                 WriteUserName();
                 WritePassword();
-                ReadUsers(username, password);
-            }
-        }
 
+                HasSuccess = ReadData.LoginCheck(username, password);
+            }
+
+            Console.WriteLine("You have successfully Logged in");
+            Console.WriteLine("_______________________________");
+
+            accountType = ReadData.Storage.ReturnTypeAccount(username);
+            if (accountType == "listener")
+            {
+                ReadData.ReadListener();
+            }
+            else
+            {
+                ReadData.ReadArtist();
+            }
+
+            ReadData.Storage.PrintInfo(username);
+        }
         public static void WriteUserName()
         {
             Console.Write("Username: ");
@@ -57,29 +72,11 @@ namespace PeshoFy.Classes
                 password = Console.ReadLine();
             }
         }
-        public static void ReadUsers(string username, string password)
-        {
-            string searchString = $"<user><{username}>({password})";
-            using (StreamReader reader = File.OpenText(filePath))
-            {
-                string line = "";
-                HasSuccess = false;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (line.Contains(searchString))
-                    {
-                        HasSuccess = true;
-                        Console.WriteLine("You have successfully Logged in");
-                        break;
-                    }
-                }
-            }
-        }
         public static bool IsValidPassword(string password)
         {
             Regex passwordRegex = new Regex("^[a-zA-Z0-9]+$");
 
-            return passwordRegex.IsMatch(username);
+            return passwordRegex.IsMatch(password);
         }
         public static bool IsValidUsername(string username)
         {

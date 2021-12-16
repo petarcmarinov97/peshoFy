@@ -4,19 +4,17 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PeshoFy.Classes
 {
 
     internal class Register
     {
-        static string filePath = "C:\\Git Repos\\peshoFy\\PeshoFy\\PeshoFy\\Utils\\DataFile.txt";
         static string username = string.Empty;
+        static string fullName = string.Empty;
         static string password = string.Empty;
         static string type = string.Empty;
         static string dateOfBirth = string.Empty;
-        static Guid userId;
         static bool HasUser = false;
         public static void UserRegister()
         {
@@ -28,9 +26,9 @@ namespace PeshoFy.Classes
 
             WriteUserName();
             WritePassword();
+            WriteFullName();
             WriteDateOfBirth();
             WriteType();
-            GenerateUserId();
             Console.WriteLine("You have successfully created an account");
             WriteFile();
             MoveToLogin();
@@ -46,12 +44,12 @@ namespace PeshoFy.Classes
                 username = Console.ReadLine();
             }
 
-            ReadUsers(username);
+            CheckUsers(username);
             while (HasUser == true)
             {
                 Console.Write("The following username already exists. Try another one\nUsername:");
                 username = Console.ReadLine();
-                ReadUsers(username);
+                CheckUsers(username);
             }
         }
         public static void WritePassword()
@@ -63,6 +61,17 @@ namespace PeshoFy.Classes
             {
                 Console.Write("Invalid password. Try with a new one!:\nPassword: ");
                 password = Console.ReadLine();
+            }
+        }
+        public static void WriteFullName()
+        {
+            Console.Write("Full Name: ");
+            fullName = Console.ReadLine();
+
+            while (IsValidName(fullName) == false)
+            {
+                Console.Write("Invalid Full Name input. Try with a new one!:\nFull Name: ");
+                fullName = Console.ReadLine();
             }
         }
         public static void WriteDateOfBirth()
@@ -93,6 +102,11 @@ namespace PeshoFy.Classes
 
             return usernameRegex.IsMatch(username);
         }
+        public static bool IsValidName(string fullName)
+        {
+            Regex fullNameRegex = new Regex(@"^[a-zA-Z]+(\s[a-zA-Z]+)+$");
+            return fullNameRegex.IsMatch(fullName);
+        }
         public static bool IsValidPassword(string username)
         {
             Regex passwordRegex = new Regex("^[a-zA-Z0-9]+$");
@@ -109,14 +123,10 @@ namespace PeshoFy.Classes
         {
             return (username == "listener" || username == "artist");
         }
-        public static void GenerateUserId()
-        {
-            userId = Guid.NewGuid();
-        }
-        public static void ReadUsers(string username)
+        public static void CheckUsers(string username)
         {
             string searchString = $"<user><{username}>";
-            using (StreamReader reader = File.OpenText(filePath))
+            using (StreamReader reader = File.OpenText(Constants.FILE_PATH))
             {
                 string line = "";
                 HasUser = false;
@@ -132,18 +142,44 @@ namespace PeshoFy.Classes
         }
         public static void WriteFile()
         {
-            string user = $"<user><{username}>({password})" + "[" + $"{dateOfBirth}" + "]" + "{" + $"{type}" + "}" + "{" + $"{userId}" + "}" + "</user>";
+            //<user><Go6koy>(123456){listener}</user>
+            string user = $"<user><{username}>({password})" + "{" + $"{type}" + "}" + "</user>";
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(Constants.FILE_PATH))
             {
-                using (StreamWriter writer = File.CreateText(filePath))
+                using (StreamWriter writer = File.CreateText(Constants.FILE_PATH))
                 {
                     writer.WriteLine(user);
                 }
             }
-            using (StreamWriter writer = File.AppendText(filePath))
+            using (StreamWriter writer = File.AppendText(Constants.FILE_PATH))
             {
                 writer.WriteLine(user);
+            }
+
+            using(StreamWriter writer = File.AppendText(Constants.DataBase_PATH))
+            {
+                if(type == "listener")
+                {
+                    List<string> genres = new List<string>();
+                    List<Song> favoriteSongs= new List<Song>();
+                    List<PlayList> playLists = new List<PlayList>();
+
+                    //<listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: [])</listener>
+                    string userToSave = $"\n<{type}>" + $"<{username}>" + $"<{fullName}>" + $"[{dateOfBirth}]" + $"(genres: [{string.Join(", ", genres)}])" + $"(likedSongs: [{string.Join(", ", favoriteSongs)}])" + $"(playlists: [{string.Join(", ", playLists)}])" + $"</{type}>";
+                    writer.WriteLine(userToSave);
+                }
+
+                if(type == "artist")
+                {
+                    List<string> genres = new List<string>();
+                    List<Song> favoriteSongs = new List<Song>();
+                    List<Album> albums = new List<Album>();
+
+                    //<artist><Stenli><Stanislav Slanev>[12/8/1959](genres: ['pop', 'rock'])(albums: ['Obseben'])</artist>
+                    string userToSave = $"\n<{type}>" + $"<{username}>" + $"<{fullName}>" + $"[{dateOfBirth}]" + $"(genres: [{string.Join(", ", genres)}])" + $"(albums: [{string.Join(", ", albums)}])" + $"</{type}>";
+                    writer.WriteLine(userToSave);
+                }
             }
         }
         public static void MoveToLogin()
