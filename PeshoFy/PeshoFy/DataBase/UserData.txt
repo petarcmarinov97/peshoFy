@@ -1,6 +1,0 @@
-<user><petarcm97>(123456){listener}</user>
-<user><Stenli>(123456){artist}</user>
-<user><Go6koy>(123456){listener}</user><user>
-<user><ivan97>(123456){listener}</user>
-<user><drago>(123){listener}</user>
-<user><gosho>(123){artist}</user>

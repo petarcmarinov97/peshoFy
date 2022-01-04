@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace PeshoFy.Classes
 {
-    class Login
+    static class Login
     {
-        static string username = string.Empty;
-        static string password = string.Empty;
-        static bool HasSuccess = false;
-        static string accountType = string.Empty;
+        private static string username = string.Empty;
+        private static string password = string.Empty;
+        private static bool approved = false;
+        private static string accountType = string.Empty;
         public static void UserLogin()
         {
             FillLoginForm();
@@ -24,31 +24,42 @@ namespace PeshoFy.Classes
 
             WriteUserName();
             WritePassword();
-            HasSuccess = ReadData.LoginCheck(username, password);
+            LoginCheck();
 
-            while (HasSuccess == false)
+            while (approved == false)
             {
                 Console.WriteLine("Wrong username or password. Try again: ");
                 WriteUserName();
                 WritePassword();
 
-                HasSuccess = ReadData.LoginCheck(username, password);
+                LoginCheck();
             }
 
             Console.WriteLine("You have successfully Logged in");
             Console.WriteLine("_______________________________");
 
-            accountType = ReadData.Storage.ReturnTypeAccount(username);
-            if (accountType == "listener")
+        }
+        public static void LoginCheck()
+        {
+            if (Storage.UserTypes.Keys.Contains(username))
             {
-                ReadData.ReadListener();
-            }
-            else
-            {
-                ReadData.ReadArtist();
-            }
+                accountType = Storage.UserTypes[username];
+                if (accountType == Constants.LISTENER)
+                {
+                    if (Storage.Listeners[username].Password == password)
+                    {
+                        approved = true;
+                    }
+                }
 
-            ReadData.Storage.PrintInfo(username);
+                if (accountType == Constants.ARTIST)
+                {
+                    if (Storage.Artists[username].Password == password)
+                    {
+                        approved = true;
+                    }
+                }
+            }
         }
         public static void WriteUserName()
         {
@@ -84,5 +95,13 @@ namespace PeshoFy.Classes
 
             return usernameRegex.IsMatch(username);
         }
+        public static string[] GetAccountType()
+        {
+            string[] userInfo = new string[2];
+            userInfo[0] = username;
+            userInfo[1] = accountType;
+            return userInfo;
+        }
+
     }
 }

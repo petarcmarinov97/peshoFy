@@ -6,12 +6,8 @@ namespace PeshoFy.Classes
 {
     class Content : IContent
     {
-        private static string name;
-        private static string duration;
-
-        public Content()
-        {
-        }
+        private string name;
+        private string duration;
 
         protected Content(string name)
         {
@@ -24,10 +20,10 @@ namespace PeshoFy.Classes
         }
         public string Duration { get => duration; set => duration = value; }
         public string Name { get => name; set => name = value; }
-    
-        public string GetName()
+
+        virtual public string GetDurationTime()
         {
-            return Name;
+            return Duration;
         }
     }
 }

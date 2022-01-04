@@ -7,33 +7,35 @@ using System.Text.RegularExpressions;
 
 namespace PeshoFy.Classes
 {
-
-    internal class Register
+    static class Register
     {
-        static string username = string.Empty;
-        static string fullName = string.Empty;
-        static string password = string.Empty;
-        static string type = string.Empty;
-        static string dateOfBirth = string.Empty;
-        static bool HasUser = false;
+        private static string username = string.Empty;
+        private static string fullName = string.Empty;
+        private static string password = string.Empty;
+        private static string type = string.Empty;
+        private static string dateOfBirth = string.Empty;
+        private static bool HasUser = false;
+
         public static void UserRegister()
         {
             FillRegisterForm();
         }
+
         public static void FillRegisterForm()
         {
             Console.WriteLine("Register Form");
 
-            WriteUserName();
+            WriteUsername();
             WritePassword();
             WriteFullName();
             WriteDateOfBirth();
             WriteType();
             Console.WriteLine("You have successfully created an account");
-            WriteFile();
-            MoveToLogin();
+            SaveData();
+            Login.UserLogin();
         }
-        public static void WriteUserName()
+
+        public static void WriteUsername()
         {
             Console.Write("Username: ");
             username = Console.ReadLine();
@@ -52,6 +54,7 @@ namespace PeshoFy.Classes
                 CheckUsers(username);
             }
         }
+
         public static void WritePassword()
         {
             Console.Write("Password: ");
@@ -119,83 +122,28 @@ namespace PeshoFy.Classes
 
             return dateRegex.IsMatch(dateOfBirth);
         }
-        public static bool IsValidType(string username)
+        public static bool IsValidType(string type)
         {
-            return (username == "listener" || username == "artist");
+            return (type == "listener" || type == "artist");
         }
-        public static void CheckUsers(string username)
+        public static bool CheckUsers(string username)
         {
-            string searchString = $"<user><{username}>";
-            using (StreamReader reader = File.OpenText(Constants.FILE_PATH))
-            {
-                string line = "";
-                HasUser = false;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    if (line.Contains(searchString))
-                    {
-                        HasUser = true;
-                        break;
-                    }
-                }
-            }
+            return Storage.UserTypes.Keys.Contains(username);
         }
-        public static void WriteFile()
+        public static void SaveData()
         {
-            //<user><Go6koy>(123456){listener}</user>
-            string user = $"<user><{username}>({password})" + "{" + $"{type}" + "}" + "</user>";
-
-            if (!File.Exists(Constants.FILE_PATH))
+            Storage.UserTypes.Add(username, type);
+            List<string> genres = new List<string>();
+            List<Album> albums = new List<Album>();
+            List<Song> favoriteSongs = new List<Song>();
+            List<PlayList> playLists = new List<PlayList>();
+            if (type == Constants.ARTIST)
             {
-                using (StreamWriter writer = File.CreateText(Constants.FILE_PATH))
-                {
-                    writer.WriteLine(user);
-                }
+                Storage.Artists.Add(username, new Artist(username, password, fullName, dateOfBirth, genres, albums));
             }
-            using (StreamWriter writer = File.AppendText(Constants.FILE_PATH))
+            if (type == Constants.LISTENER)
             {
-                writer.WriteLine(user);
-            }
-
-            using(StreamWriter writer = File.AppendText(Constants.DataBase_PATH))
-            {
-                if(type == "listener")
-                {
-                    List<string> genres = new List<string>();
-                    List<Song> favoriteSongs= new List<Song>();
-                    List<PlayList> playLists = new List<PlayList>();
-
-                    //<listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: [])</listener>
-                    string userToSave = $"\n<{type}>" + $"<{username}>" + $"<{fullName}>" + $"[{dateOfBirth}]" + $"(genres: [{string.Join(", ", genres)}])" + $"(likedSongs: [{string.Join(", ", favoriteSongs)}])" + $"(playlists: [{string.Join(", ", playLists)}])" + $"</{type}>";
-                    writer.WriteLine(userToSave);
-                }
-
-                if(type == "artist")
-                {
-                    List<string> genres = new List<string>();
-                    List<Song> favoriteSongs = new List<Song>();
-                    List<Album> albums = new List<Album>();
-
-                    //<artist><Stenli><Stanislav Slanev>[12/8/1959](genres: ['pop', 'rock'])(albums: ['Obseben'])</artist>
-                    string userToSave = $"\n<{type}>" + $"<{username}>" + $"<{fullName}>" + $"[{dateOfBirth}]" + $"(genres: [{string.Join(", ", genres)}])" + $"(albums: [{string.Join(", ", albums)}])" + $"</{type}>";
-                    writer.WriteLine(userToSave);
-                }
-            }
-        }
-        public static void MoveToLogin()
-        {
-            Console.WriteLine("[1] Login");
-            Console.WriteLine("[2] Exit the Application");
-            int input = int.Parse(Console.ReadLine());
-
-            switch (input)
-            {
-                case 1:
-                    Login.UserLogin();
-                    break;
-                case 2:
-                    Console.WriteLine("Goodbye And Have a Nice Day ;) ");
-                    break;
+                Storage.Listeners.Add(username, new Listener(username, password, fullName, dateOfBirth, genres, favoriteSongs, playLists));
             }
         }
     }
