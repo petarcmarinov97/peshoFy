@@ -89,6 +89,8 @@ namespace PeshoFy.Classes
                             minutes -= 60;
                         }
                     }
+
+                    songCounter++;
                 }
 
                 outputHours = hours.ToString();

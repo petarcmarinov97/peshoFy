@@ -8,21 +8,18 @@ namespace PeshoFy.Classes
     {
         private List<Song> songs = new List<Song>();
         private Listener listener;
-        private string releaseDate;
         private List<string> genres;
         public PlayList(string name) : base(name)
         {
         }
-        public PlayList(string name, string duration, List<Song> songs, Listener listener, List<string> genres, string releaseDate) : base(name, duration)
+        public PlayList(string name, string duration, List<Song> songs, Listener listener, List<string> genres) : base(name, duration)
         {
             this.Listener = listener;
             this.Genres = genres;
-            this.ReleaseDate = releaseDate;
             this.Songs = songs;
         }
         public Listener Listener { get => listener; set => listener = value; }
         public List<string> Genres { get => genres; set => genres = value; }
-        public string ReleaseDate { get => releaseDate; set => releaseDate = value; }
         public List<Song> Songs { get => songs; set => songs = value; }
 
         public override string GetDurationTime()
@@ -83,6 +80,8 @@ namespace PeshoFy.Classes
                             minutes -= 60;
                         }
                     }
+
+                    songCounter++;
                 }
 
                 outputHours = hours.ToString();
@@ -107,6 +106,46 @@ namespace PeshoFy.Classes
             }
 
             return sb.ToString();
+        }
+        public void AddSong(Song songToAdd)
+        {
+            if (Songs.Count == 0)
+            {
+                Songs.Add(songToAdd);
+                Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
+            }
+            else
+            {
+                if (Songs.Contains(songToAdd))
+                {
+                    Console.WriteLine("The song {0} is already in this Playlist!\n", songToAdd.Name);
+                }
+                else
+                {
+                    Songs.Add(songToAdd);
+                    Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
+                }
+            }
+        }
+
+        public void RemoveSong(Song songToRemove)
+        {
+            if (Songs.Count == 0)
+            {
+                Console.WriteLine("There is no Songs in the Playlist!\n");
+            }
+            else
+            {
+                if (Songs.Contains(songToRemove))
+                {
+                    Songs.Remove(songToRemove);
+                    Console.WriteLine("The song {0} has been removed from the Playlist\n", songToRemove.Name);
+                }
+                else
+                {
+                    Console.WriteLine("A song with this name do not exist in the Playlist!\n");
+                }
+            }
         }
     }
 }

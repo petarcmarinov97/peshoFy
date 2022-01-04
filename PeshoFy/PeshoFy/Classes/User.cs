@@ -48,12 +48,5 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-
-        virtual public void PrintCollection()
-        {
-
-        }
-
-        virtual public void PrintSongsCollection() { }
     }
 }

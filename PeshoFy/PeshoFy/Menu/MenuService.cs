@@ -69,14 +69,14 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 2:
-                        artist.PrintMyAlbums(username);
+                        artist.PrintMyAlbums();
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                     case 3:
                         Console.WriteLine("Enter album name: ");
                         string album = Console.ReadLine();
-                        artist.AlbumInfo(album);
+                        artist.PrintAlbumInfo(album);
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
@@ -87,7 +87,7 @@ namespace PeshoFy.Classes
                         string albumYear = Console.ReadLine();
                         Console.WriteLine("Enter gengre/genres separated by ', ': ");
                         List<string> albumGenres = Console.ReadLine().Split(", ").ToList();
-                        Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear, username);
+                        Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear);
 
                         if (newAlbum != null && !Storage.Albums.ContainsKey(album))
                         {
@@ -188,20 +188,143 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 2:
-                        listener.PrintMyPlayLists(username);
+                        listener.PrintMyPlaylists();
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                     case 3:
                         Console.WriteLine("Enter album name: ");
-                        string playlist = Console.ReadLine();
-                        listener.PlaylistInfo(playlist);
+                        string playlistName = Console.ReadLine();
+                        listener.PrintPlaylistInfo(playlistName);
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+                    case 4:
+                        listener.PrintFavoriteSongs();
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+                    case 5:
+                        Console.WriteLine("Enter playlist name: ");
+                        playlistName = Console.ReadLine();
+                        Console.WriteLine("Enter gengre/genres separated by ', ': ");
+                        List<string> playlistGengres = Console.ReadLine().Split(", ").ToList();
+                        PlayList newPlaylist = listener.CreatePlayList(playlistName, playlistGengres);
+
+                        if (newPlaylist != null && !Storage.Albums.ContainsKey(playlistName))
+                        {
+                            Storage.Playlists.Add(playlistName, newPlaylist);
+                            listener.PlayLists.Add(newPlaylist);
+                            Console.WriteLine("Playlist has been added successfully!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("There was an error with creating the album");
+                        }
+
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+                    case 6:
+                        Console.WriteLine("Enter album name which you want to be removed: ");
+                        playlistName = Console.ReadLine();
+                        listener.DeletePlayList(playlistName);
+                        Storage.Playlists.Remove(playlistName);
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+                    case 7:
+                        Console.WriteLine("Enter playlist name in which to add the songs: ");
+                        playlistName = Console.ReadLine();
+
+                        if (Storage.Playlists.ContainsKey(playlistName))
+                        {
+                            Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                            string[] songsToAdd = Console.ReadLine().Split(", ");
+
+                            foreach (string song in songsToAdd)
+                            {
+                                if (Storage.Songs.ContainsKey(song))
+                                {
+                                    listener.AddSongsToPlaylist(Storage.Songs[song], playlistName);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Song as {0} does not exists!", song);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("There is no playlist with this name!");
+                        }
+
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+                    case 8:
+                        Console.WriteLine("Enter playlist from which you want to remove songs: ");
+                        playlistName = Console.ReadLine();
+
+                        if (Storage.Playlists.ContainsKey(playlistName))
+                        {
+                            Console.WriteLine("Write the songs that you want to be removed, seperated by ', ' :");
+                            string[] songsToRemove = Console.ReadLine().Split(", ");
+
+                            foreach (string song in songsToRemove)
+                            {
+                                if (Storage.Songs.ContainsKey(song))
+                                {
+                                    listener.RemoveSongsFromPlaylist(Storage.Songs[song], playlistName);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Song as {0} does not exists!", song);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("There is no playlist with this name!");
+                        }
+
+                        Console.WriteLine("Waiting for the next command...");
+                        LoginDisplay();
+                        break;
+                    case 9:
+                        Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                        string[] songsToFavorites = Console.ReadLine().Split(", ");
+
+                        foreach (string song in songsToFavorites)
+                        {
+                            if (Storage.Songs.ContainsKey(song))
+                            {
+                                listener.AddSongsToFavorites(Storage.Songs[song]);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Song as {0} does not exists!", song);
+                            }
+                        }
+
+                        Console.WriteLine("\nWaiting for the next command...\n");
+                        LoginDisplay();
+                        break;
+
+                    case 10:
+                        Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                        string[] songsToDelete = Console.ReadLine().Split(", ");
+
+                        foreach (string song in songsToDelete)
+                        {
+                            listener.RemoveSongsFromFavorites(song);
+                        }
+
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                 }
             }
-
         }
         public static void ArtistDisplay()
         {
@@ -220,14 +343,14 @@ namespace PeshoFy.Classes
         {
             Console.WriteLine("Here are your options: ");
             Console.WriteLine("[1] Print info about me");//[x]
-            Console.WriteLine("[2] Print all my playlists");//[]
-            Console.WriteLine("[3] Print info about a playlist");//[]
+            Console.WriteLine("[2] Print all my playlists");//[x]
+            Console.WriteLine("[3] Print info about a playlist");//[x]
             Console.WriteLine("[4] Print my favourite songs");//[]
             Console.WriteLine("[5] Create a playlist");//[]
             Console.WriteLine("[6] Remove a playlist");//[]
             Console.WriteLine("[7] Add songs to a playlist ");//[]
             Console.WriteLine("[8] Remove songs from a playlist");//[]
-            Console.WriteLine("[9] Add songs to favourites");//[]
+            Console.WriteLine("[9] Add songs to favorites");//[]
             Console.WriteLine("[10] Remove songs from favourites");//[]
             Console.WriteLine("[11] Log out");//[]
             Console.Write("Your choise: ");

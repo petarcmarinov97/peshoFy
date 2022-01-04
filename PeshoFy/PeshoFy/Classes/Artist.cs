@@ -37,7 +37,7 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public void PrintMyAlbums(string username)
+        public void PrintMyAlbums()
         {
             StringBuilder sb = new StringBuilder();
 
@@ -49,7 +49,7 @@ namespace PeshoFy.Classes
             {
                 int albumPosition = 1;
 
-                foreach (Album album in Storage.Artists[username].Albums)
+                foreach (Album album in Storage.Artists[this.Username].Albums)
                 {
                     if (album != null)
                     {
@@ -73,7 +73,7 @@ namespace PeshoFy.Classes
 
             Console.WriteLine(sb.ToString());
         }
-        public void AlbumInfo(string albumName)
+        public void PrintAlbumInfo(string albumName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -94,15 +94,14 @@ namespace PeshoFy.Classes
 
             Console.Write("\n{0}", sb.ToString());
         }
-        public Album CreateAlbum(string albumName, List<string> albumGenres, string albumYear, string username)
+        public Album CreateAlbum(string albumName, List<string> albumGenres, string albumYear)
         {
             Album album = Albums.Find(album => album.Name == albumName);
 
             if (album == null)
             {
                 List<Song> songs = new List<Song>();
-                List<Album> newAlbum = new List<Album>();
-                Artist artist = Storage.Artists[username];
+                Artist artist = Storage.Artists[this.Username];
                 Album albumToReturn = new Album(albumName, "", songs, artist, albumGenres, albumYear);
 
                 return albumToReturn;

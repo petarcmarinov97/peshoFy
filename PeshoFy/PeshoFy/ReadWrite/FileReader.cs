@@ -59,7 +59,7 @@ namespace PeshoFy.Classes
                             if (song != "")
                             {
                                 Song songtoAdd = new Song(song);
-                                if (favoriteSongs.Contains(songtoAdd))
+                                if (!favoriteSongs.Contains(songtoAdd))
                                 {
                                     favoriteSongs.Add(songtoAdd);
                                 }
