@@ -36,44 +36,48 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-
-        public void PrintMyAlbums()
+        public override void PrintCollection(string typeCollection)
         {
-            StringBuilder sb = new StringBuilder();
-
-            if (this.Albums.Count == 0)
+            switch (typeCollection)
             {
-                sb.Append("It is an empty collection.\n");
-            }
-            else
-            {
-                int albumPosition = 1;
+                case "albums":
+                    StringBuilder sb = new StringBuilder();
 
-                foreach (Album album in Storage.Artists[this.Username].Albums)
-                {
-                    if (album != null)
+                    if (this.Albums.Count == 0)
                     {
-                        sb.Append(String.Format("{0}. Album - {1}\n", albumPosition, album.Name));
-                    }
-
-                    if (Storage.Albums[album.Name].Songs.Count == 0)
-                    {
-                        sb.Append("   There are no songs in the current album.\n");
+                        sb.Append("It is an empty collection.\n");
                     }
                     else
                     {
-                        int songsCount = Storage.Albums[album.Name].Songs.Count;
+                        int albumPosition = 1;
 
-                        sb.Append(String.Format("   There are {0} songs in this Album\n", songsCount));
+                        foreach (Album album in Storage.Artists[this.Username].Albums)
+                        {
+                            if (album != null)
+                            {
+                                sb.Append(String.Format("{0}. Album - {1}\n", albumPosition, album.Name));
+                            }
+
+                            if (Storage.Albums[album.Name].Songs.Count == 0)
+                            {
+                                sb.Append("   There are no songs in the current album.\n");
+                            }
+                            else
+                            {
+                                int songsCount = Storage.Albums[album.Name].Songs.Count;
+
+                                sb.Append(String.Format("   There are {0} songs in this Album\n", songsCount));
+                            }
+
+                            albumPosition++;
+                        }
                     }
 
-                    albumPosition++;
-                }
+                    Console.WriteLine(sb.ToString());
+                    break;
             }
-
-            Console.WriteLine(sb.ToString());
         }
-        public void PrintAlbumInfo(string albumName)
+        public override void PrintCollectionInfo(string albumName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -100,9 +104,24 @@ namespace PeshoFy.Classes
 
             if (album == null)
             {
+                
                 List<Song> songs = new List<Song>();
                 Artist artist = Storage.Artists[this.Username];
                 Album albumToReturn = new Album(albumName, "", songs, artist, albumGenres, albumYear);
+                Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                string[] songsToAdd = Console.ReadLine().Split(", ");
+
+                foreach (string song in songsToAdd)
+                {
+                    if (Storage.Songs.ContainsKey(song))
+                    {
+                        albumToReturn.Songs.Add(Storage.Songs[song]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Song as {0} does not exists!", song);
+                    }
+                }
 
                 return albumToReturn;
             }

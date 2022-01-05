@@ -259,6 +259,6 @@ namespace PeshoFy.Classes
             sb.Append(GeneratePlaylists());
 
             return sb.ToString();
-        }   
+        }
     }
 }

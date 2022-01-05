@@ -6,9 +6,9 @@ namespace PeshoFy.Classes
 {
     internal class PlayList : Content, ISongsContainer
     {
-        private List<Song> songs = new List<Song>();
         private Listener listener;
         private List<string> genres;
+        private List<Song> songs = new List<Song>();
         public PlayList(string name) : base(name)
         {
         }
@@ -22,6 +22,45 @@ namespace PeshoFy.Classes
         public List<string> Genres { get => genres; set => genres = value; }
         public List<Song> Songs { get => songs; set => songs = value; }
 
+        public void AddSong(Song songToAdd)
+        {
+            if (Songs.Count == 0)
+            {
+                Songs.Add(songToAdd);
+                Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
+            }
+            else
+            {
+                if (Songs.Contains(songToAdd))
+                {
+                    Console.WriteLine("The song {0} is already in this Playlist!\n", songToAdd.Name);
+                }
+                else
+                {
+                    Songs.Add(songToAdd);
+                    Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
+                }
+            }
+        }
+        public void RemoveSong(Song songToRemove)
+        {
+            if (Songs.Count == 0)
+            {
+                Console.WriteLine("There is no Songs in the Playlist!\n");
+            }
+            else
+            {
+                if (Songs.Contains(songToRemove))
+                {
+                    Songs.Remove(songToRemove);
+                    Console.WriteLine("The song {0} has been removed from the Playlist\n", songToRemove.Name);
+                }
+                else
+                {
+                    Console.WriteLine("A song with this name do not exist in the Playlist!\n");
+                }
+            }
+        }
         public override string GetDurationTime()
         {
             StringBuilder sb = new StringBuilder();
@@ -106,46 +145,6 @@ namespace PeshoFy.Classes
             }
 
             return sb.ToString();
-        }
-        public void AddSong(Song songToAdd)
-        {
-            if (Songs.Count == 0)
-            {
-                Songs.Add(songToAdd);
-                Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
-            }
-            else
-            {
-                if (Songs.Contains(songToAdd))
-                {
-                    Console.WriteLine("The song {0} is already in this Playlist!\n", songToAdd.Name);
-                }
-                else
-                {
-                    Songs.Add(songToAdd);
-                    Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
-                }
-            }
-        }
-
-        public void RemoveSong(Song songToRemove)
-        {
-            if (Songs.Count == 0)
-            {
-                Console.WriteLine("There is no Songs in the Playlist!\n");
-            }
-            else
-            {
-                if (Songs.Contains(songToRemove))
-                {
-                    Songs.Remove(songToRemove);
-                    Console.WriteLine("The song {0} has been removed from the Playlist\n", songToRemove.Name);
-                }
-                else
-                {
-                    Console.WriteLine("A song with this name do not exist in the Playlist!\n");
-                }
-            }
         }
     }
 }

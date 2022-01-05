@@ -18,6 +18,7 @@ namespace PeshoFy.Classes
         {
             FillLoginForm();
         }
+        
         public static void FillLoginForm()
         {
             Console.WriteLine("Login Form");
@@ -38,28 +39,25 @@ namespace PeshoFy.Classes
             Console.WriteLine("_______________________________");
 
         }
+        
         public static void LoginCheck()
         {
             if (Storage.UserTypes.Keys.Contains(username))
             {
                 accountType = Storage.UserTypes[username];
+
                 if (accountType == Constants.LISTENER)
                 {
-                    if (Storage.Listeners[username].Password == password)
-                    {
-                        approved = true;
-                    }
+                    approved = Storage.Listeners[username].Password == password;
                 }
 
                 if (accountType == Constants.ARTIST)
                 {
-                    if (Storage.Artists[username].Password == password)
-                    {
-                        approved = true;
-                    }
+                    approved = Storage.Artists[username].Password == password;
                 }
             }
         }
+        
         public static void WriteUserName()
         {
             Console.Write("Username: ");
@@ -71,6 +69,7 @@ namespace PeshoFy.Classes
                 username = Console.ReadLine();
             }
         }
+        
         public static void WritePassword()
         {
             Console.Write("Password: ");
@@ -82,18 +81,21 @@ namespace PeshoFy.Classes
                 password = Console.ReadLine();
             }
         }
+        
         public static bool IsValidPassword(string password)
         {
             Regex passwordRegex = new Regex("^[a-zA-Z0-9]+$");
 
             return passwordRegex.IsMatch(password);
         }
+        
         public static bool IsValidUsername(string username)
         {
             Regex usernameRegex = new Regex("^[a-zA-Z0-9]+$");
 
             return usernameRegex.IsMatch(username);
         }
+        
         public static string[] GetAccountType()
         {
             string[] userInfo = new string[2];

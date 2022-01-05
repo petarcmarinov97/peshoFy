@@ -46,14 +46,15 @@ namespace PeshoFy.Classes
                 username = Console.ReadLine();
             }
 
-            CheckUsers(username);
+            HasUser = CheckUsers(username);
             while (HasUser == true)
             {
                 Console.Write("The following username already exists. Try another one\nUsername:");
                 username = Console.ReadLine();
-                CheckUsers(username);
+                HasUser = CheckUsers(username);
             }
         }
+        
         public static void WritePassword()
         {
             Console.Write("Password: ");
@@ -65,6 +66,7 @@ namespace PeshoFy.Classes
                 password = Console.ReadLine();
             }
         }
+        
         public static void WriteFullName()
         {
             Console.Write("Full Name: ");
@@ -76,6 +78,7 @@ namespace PeshoFy.Classes
                 fullName = Console.ReadLine();
             }
         }
+        
         public static void WriteDateOfBirth()
         {
             Console.Write("Date of Birth (DD/MM/YYYY): ");
@@ -87,6 +90,7 @@ namespace PeshoFy.Classes
                 dateOfBirth = Console.ReadLine();
             }
         }
+        
         public static void WriteType()
         {
             Console.Write("Type: ");
@@ -98,42 +102,50 @@ namespace PeshoFy.Classes
                 type = Console.ReadLine();
             }
         }
+        
         public static void WriteGenres()
         {
             Console.Write("Genres seperate by ', ' : ");
             genresInput = Console.ReadLine();
         }
+        
         public static bool IsValidUsername(string username)
         {
             Regex usernameRegex = new Regex("^[a-zA-Z0-9]+$");
 
             return usernameRegex.IsMatch(username);
         }
+        
         public static bool IsValidName(string fullName)
         {
             Regex fullNameRegex = new Regex(@"^[a-zA-Z]+(\s[a-zA-Z]+)+$");
             return fullNameRegex.IsMatch(fullName);
         }
+        
         public static bool IsValidPassword(string username)
         {
             Regex passwordRegex = new Regex("^[a-zA-Z0-9]+$");
 
             return passwordRegex.IsMatch(username);
         }
+        
         public static bool IsValidDateOfBirth(string dateOfBirth)
         {
             Regex dateRegex = new Regex("^(?:[012]?[0-9]|3[01])[./-](?:0?[1-9]|1[0-2])[./-](?:[0-9]{2}){1,2}$");
 
             return dateRegex.IsMatch(dateOfBirth);
         }
+        
         public static bool IsValidType(string type)
         {
             return (type == "listener" || type == "artist");
         }
+        
         public static bool CheckUsers(string username)
         {
             return Storage.UserTypes.Keys.Contains(username);
         }
+        
         public static void SaveData()
         {
             Storage.UserTypes.Add(username, type);

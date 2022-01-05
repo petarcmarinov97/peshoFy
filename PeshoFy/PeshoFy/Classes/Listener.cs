@@ -43,8 +43,8 @@ namespace PeshoFy.Classes
             }
 
             sb.Append(String.Format("Favorites Songs: \n"));
-            
-            if(this.FavoriteSongs.Count == 0)
+
+            if (this.FavoriteSongs.Count == 0)
             {
                 sb.Append("   There are no favorite songs.\n");
             }
@@ -61,43 +61,68 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-        public void PrintMyPlaylists()
+        public override void PrintCollection(string typeCollection)
         {
             StringBuilder sb = new StringBuilder();
-
-            if (PlayLists.Count == 0)
+            switch (typeCollection)
             {
-                sb.Append("It is an empty collection.\n");
-            }
-            else
-            {
-                int playlistPosition = 1;
-
-                foreach (PlayList playlist in Storage.Listeners[this.Username].PlayLists)
-                {
-                    if (playlist != null)
+                case "playlists":
+                    if (PlayLists.Count == 0)
                     {
-                        sb.Append(String.Format("{0}. Album - {1}\n", playlistPosition, playlist.Name));
-                    }
-
-                    if (Storage.Playlists[playlist.Name].Songs.Count == 0)
-                    {
-                        sb.Append("   There are no songs in the current album.\n");
+                        sb.Append("It is an empty collection.\n");
                     }
                     else
                     {
-                        int songsCount = Storage.Playlists[playlist.Name].Songs.Count;
+                        int playlistPosition = 1;
 
-                        sb.Append(String.Format("   There are {0} songs in this Album\n", songsCount));
+                        foreach (PlayList playlist in Storage.Listeners[this.Username].PlayLists)
+                        {
+                            if (playlist != null)
+                            {
+                                sb.Append(String.Format("{0}. Album - {1}\n", playlistPosition, playlist.Name));
+                            }
+
+                            if (Storage.Playlists[playlist.Name].Songs.Count == 0)
+                            {
+                                sb.Append("   There are no songs in the current album.\n");
+                            }
+                            else
+                            {
+                                int songsCount = Storage.Playlists[playlist.Name].Songs.Count;
+
+                                sb.Append(String.Format("   There are {0} songs in this Album\n", songsCount));
+                            }
+
+                            playlistPosition++;
+                        }
                     }
 
-                    playlistPosition++;
-                }
-            }
+                    Console.WriteLine(sb.ToString());
+                    break;
 
-            Console.WriteLine(sb.ToString());
+                case "favorites":
+                    if (this.FavoriteSongs.Count == 0)
+                    {
+                        sb.Append("   There are no favorite songs.\n");
+                    }
+                    else
+                    {
+                        int songsCount = 1;
+                        foreach (Song song in this.FavoriteSongs)
+                        {
+                            if (song != null)
+                            {
+                                sb.Append(String.Format("   {0}. {1}\n", songsCount, song.Name));
+                            }
+                            songsCount++;
+                        }
+                    }
+
+                    Console.WriteLine(sb.ToString());
+                    break;
+            }
         }
-        public void PrintPlaylistInfo(string playlistName)
+        public override void PrintCollectionInfo(string playlistName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -118,29 +143,6 @@ namespace PeshoFy.Classes
 
             Console.Write("\n{0}", sb.ToString());
         }
-        public void PrintFavoriteSongs()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (this.FavoriteSongs.Count == 0)
-            {
-                sb.Append("   There are no favorite songs.\n");
-            }
-            else
-            {
-                int songsCount = 1;
-                foreach (Song song in this.FavoriteSongs)
-                {
-                    if (song != null)
-                    {
-                        sb.Append(String.Format("   {0}. {1}\n", songsCount, song.Name));
-                    }
-                    songsCount++;
-                }
-            }
-
-            Console.WriteLine(sb.ToString());
-        }
         public PlayList CreatePlayList(string name, List<string> genres)
         {
             PlayList playlist = PlayLists.Find(playlist => playlist.Name == name);
@@ -150,6 +152,21 @@ namespace PeshoFy.Classes
                 List<Song> songs = new List<Song>();
                 Listener listener = Storage.Listeners[this.Username];
                 PlayList playlistToReturn = new PlayList(name, "", songs, listener, genres);
+
+                Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                string[] songsToAdd = Console.ReadLine().Split(", ");
+
+                foreach (string song in songsToAdd)
+                {
+                    if (Storage.Songs.ContainsKey(song))
+                    {
+                        playlistToReturn.Songs.Add(Storage.Songs[song]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Song as {0} does not exists!", song);
+                    }
+                }
 
                 return playlistToReturn;
             }

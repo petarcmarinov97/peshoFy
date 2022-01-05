@@ -10,5 +10,8 @@ namespace PeshoFy.Classes
         List<string> Genres { get; set; }
         string Password { get; set; }
         string Username { get; set; }
+
+        void PrintCollection(string typeCollection);
+        string ToString();
     }
 }

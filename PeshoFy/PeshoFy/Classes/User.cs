@@ -48,5 +48,7 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
+        virtual public void PrintCollection(string typeCollection) { }
+        virtual public void PrintCollectionInfo(string collectionName) { }
     }
 }

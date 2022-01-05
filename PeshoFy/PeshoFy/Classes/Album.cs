@@ -7,8 +7,8 @@ namespace PeshoFy.Classes
     internal class Album : Content, ISongsContainer
     {
         private Artist artist;
-        private string releaseDate;
         private List<string> genres;
+        private string releaseDate;
         private List<Song> songs = new List<Song>();
         public Album(string name) : base(name)
         {
@@ -24,6 +24,60 @@ namespace PeshoFy.Classes
         public string ReleaseDate { get => releaseDate; set => releaseDate = value; }
         public List<Song> Songs { get => songs; set => songs = value; }
         public List<string> Genres { get => genres; set => genres = value; }
+        public void AddSong(Song songToAdd)
+        {
+
+            if (Songs.Count == 0)
+            {
+                if (songToAdd.Name == "")
+                {
+                    Console.WriteLine("You need to enter a valid song name");
+                }
+                else
+                {
+                    Songs.Add(songToAdd);
+                    Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
+                }
+            }
+            else
+            {
+                if (Songs.Contains(songToAdd))
+                {
+                    Console.WriteLine("The song {0} is already in this Album!\n", songToAdd.Name);
+                }
+                else
+                {
+                    if (songToAdd.Name == "")
+                    {
+                        Console.WriteLine("You need to enter a valid song name");
+                    }
+                    else
+                    {
+                        Songs.Add(songToAdd);
+                        Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
+                    }
+                }
+            }
+        }
+        public void RemoveSong(Song songToRemove)
+        {
+            if (Songs.Count == 0)
+            {
+                Console.WriteLine("There is no Songs in the Album!\n");
+            }
+            else
+            {
+                if (Songs.Contains(songToRemove))
+                {
+                    Songs.Remove(songToRemove);
+                    Console.WriteLine("The song {0} has been removed from the Album\n", songToRemove.Name);
+                }
+                else
+                {
+                    Console.WriteLine("A song with this name do not exist in the Album!\n");
+                }
+            }
+        }
         public override string GetDurationTime()
         {
             StringBuilder sb = new StringBuilder();
@@ -115,45 +169,6 @@ namespace PeshoFy.Classes
             }
 
             return sb.ToString();
-        }
-        public void AddSong(Song songToAdd)
-        {
-            if (Songs.Count == 0)
-            {
-                Songs.Add(songToAdd);
-                Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
-            }
-            else
-            {
-                if (Songs.Contains(songToAdd))
-                {
-                    Console.WriteLine("The song {0} is already in this Album!\n", songToAdd.Name);
-                }
-                else
-                {
-                    Songs.Add(songToAdd);
-                    Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
-                }
-            }
-        }
-        public void RemoveSong(Song songToRemove)
-        {
-            if (Songs.Count == 0)
-            {
-                Console.WriteLine("There is no Songs in the Album!\n");
-            }
-            else
-            {
-                if (Songs.Contains(songToRemove))
-                {
-                    Songs.Remove(songToRemove);
-                    Console.WriteLine("The song {0} has been removed from the Album\n", songToRemove.Name);
-                }
-                else
-                {
-                    Console.WriteLine("A song with this name do not exist in the Album!\n");
-                }
-            }
         }
 
     }

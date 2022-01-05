@@ -70,14 +70,14 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 2:
-                        artist.PrintMyAlbums();
+                        artist.PrintCollection("albums");
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                     case 3:
                         Console.WriteLine("Enter album name: ");
                         string album = Console.ReadLine();
-                        artist.PrintAlbumInfo(album);
+                        artist.PrintCollectionInfo(album);
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
@@ -90,25 +90,10 @@ namespace PeshoFy.Classes
                         List<string> albumGenres = Console.ReadLine().Split(", ").ToList();
                         Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear);
 
-                        if (newAlbum != null && !Storage.Albums.ContainsKey(album))
+                        if (newAlbum != null && !Storage.Albums.ContainsKey(album) && newAlbum.Songs.Count > 0)
                         {
                             Storage.Albums.Add(album, newAlbum);
                             artist.Albums.Add(newAlbum);
-
-                            Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                            string[] songsToAdd = Console.ReadLine().Split(", ");
-
-                            foreach (string song in songsToAdd)
-                            {
-                                if (Storage.Songs.ContainsKey(song))
-                                {
-                                    artist.AddSongsToAlbum(Storage.Songs[song], album);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Song as {0} does not exists!", song);
-                                }
-                            }
 
                             Console.WriteLine("Album has been added successfully!");
                         }
@@ -212,19 +197,19 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 2:
-                        listener.PrintMyPlaylists();
+                        listener.PrintCollection("playlists");
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                     case 3:
                         Console.WriteLine("Enter playlist name: ");
                         string playlistName = Console.ReadLine();
-                        listener.PrintPlaylistInfo(playlistName);
+                        listener.PrintCollectionInfo(playlistName);
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
                     case 4:
-                        listener.PrintFavoriteSongs();
+                        listener.PrintCollection("favorites");
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
@@ -235,31 +220,16 @@ namespace PeshoFy.Classes
                         List<string> playlistGengres = Console.ReadLine().Split(", ").ToList();
                         PlayList newPlaylist = listener.CreatePlayList(playlistName, playlistGengres);
 
-                        if (newPlaylist != null && !Storage.Albums.ContainsKey(playlistName))
+                        if (newPlaylist != null && !Storage.Albums.ContainsKey(playlistName) && newPlaylist.Songs.Count > 0)
                         {
                             Storage.Playlists.Add(playlistName, newPlaylist);
                             listener.PlayLists.Add(newPlaylist);
-
-                            Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                            string[] songsToAdd = Console.ReadLine().Split(", ");
-
-                            foreach (string song in songsToAdd)
-                            {
-                                if (Storage.Songs.ContainsKey(song))
-                                {
-                                    listener.AddSongsToPlaylist(Storage.Songs[song], playlistName);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Song as {0} does not exists!", song);
-                                }
-                            }
 
                             Console.WriteLine("Playlist has been added successfully!");
                         }
                         else
                         {
-                            Console.WriteLine("There was an error with creating the album");
+                            Console.WriteLine("There was an error with creating the playlist");
                         }
 
                         Console.WriteLine("\nWaiting for the next command...\n");
