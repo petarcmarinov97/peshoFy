@@ -27,9 +27,9 @@ namespace PeshoFy.Classes
             sb.Append(base.ToString());
             sb.Append(String.Format("Playlists: \n"));
 
-            if (PlayLists.Count == 0)
+            if (this.PlayLists.Count == 0)
             {
-                sb.Append("There are no playlists.\n");
+                sb.Append("   There are no playlists.\n");
             }
             else
             {
@@ -37,7 +37,24 @@ namespace PeshoFy.Classes
 
                 foreach (PlayList playlist in PlayLists)
                 {
-                    sb.Append(String.Format("{0}. {1}\n", position, playlist.Name));
+                    sb.Append(String.Format("   {0}. {1}\n", position, playlist.Name));
+                    position++;
+                }
+            }
+
+            sb.Append(String.Format("Favorites Songs: \n"));
+            
+            if(this.FavoriteSongs.Count == 0)
+            {
+                sb.Append("   There are no favorite songs.\n");
+            }
+            else
+            {
+                int position = 1;
+
+                foreach (Song song in this.FavoriteSongs)
+                {
+                    sb.Append(String.Format("   {0}. {1}\n", position, song.Name));
                     position++;
                 }
             }
@@ -116,7 +133,7 @@ namespace PeshoFy.Classes
                 {
                     if (song != null)
                     {
-                        sb.Append(String.Format("{0}. Song - {1}\n", songsCount, song.Name));
+                        sb.Append(String.Format("   {0}. {1}\n", songsCount, song.Name));
                     }
                     songsCount++;
                 }
@@ -198,7 +215,15 @@ namespace PeshoFy.Classes
         public void RemoveSongsFromFavorites(string songToRemove)
         {
             var songToDelete = FavoriteSongs.Find(x => x.Name == songToRemove);
-            FavoriteSongs.Remove(songToDelete);
+            if (songToDelete != null)
+            {
+                FavoriteSongs.Remove(songToDelete);
+                Console.WriteLine("The song {0} has been removed successfully from favorites", songToRemove);
+            }
+            else
+            {
+                Console.WriteLine("The song does not exist in the favorites collection!");
+            }
         }
     }
 }

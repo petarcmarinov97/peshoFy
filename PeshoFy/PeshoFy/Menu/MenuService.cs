@@ -12,6 +12,7 @@ namespace PeshoFy.Classes
         private static int input;
         private static string username;
         private static string accountType;
+        private static FileWriter file = new FileWriter();
         public static void DisplayMenu()
         {
             DisplayHeader();
@@ -171,6 +172,13 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 8:
+                        Console.WriteLine("Logged out...");
+                        //Call a function for writing on the DataBase file []
+                        
+                        break;
+                    default:
+                        Console.WriteLine("Wrong command, try again !\n");
+                        LoginDisplay();
                         break;
                 }
             }
@@ -193,7 +201,7 @@ namespace PeshoFy.Classes
                         LoginDisplay();
                         break;
                     case 3:
-                        Console.WriteLine("Enter album name: ");
+                        Console.WriteLine("Enter playlist name: ");
                         string playlistName = Console.ReadLine();
                         listener.PrintPlaylistInfo(playlistName);
                         Console.WriteLine("\nWaiting for the next command...\n");
@@ -323,6 +331,14 @@ namespace PeshoFy.Classes
                         Console.WriteLine("\nWaiting for the next command...\n");
                         LoginDisplay();
                         break;
+                    case 11:
+                        Console.WriteLine("Logged out...");
+                        file.WriteToFile(Storage.GenerateArtists());
+                        break;
+                    default:
+                        Console.WriteLine("Wrong command, try again !\n");
+                        LoginDisplay();
+                        break;
                 }
             }
         }
@@ -334,9 +350,9 @@ namespace PeshoFy.Classes
             Console.WriteLine("[3] Print info about an album");//[x]
             Console.WriteLine("[4] Create album");//[x]
             Console.WriteLine("[5] Remove album");//[x]
-            Console.WriteLine("[6] Add songs to a album");//[x]
-            Console.WriteLine("[7] Remove songs from an album");//[x]
-            Console.WriteLine("[8] Log out");//[]
+            Console.WriteLine("[6] Add songs to album");//[x]
+            Console.WriteLine("[7] Remove songs from album");//[x]
+            Console.WriteLine("[8] Log Out");//[]
             Console.Write("Your choise: ");
         }
         public static void ListenerDisplay()
@@ -345,14 +361,14 @@ namespace PeshoFy.Classes
             Console.WriteLine("[1] Print info about me");//[x]
             Console.WriteLine("[2] Print all my playlists");//[x]
             Console.WriteLine("[3] Print info about a playlist");//[x]
-            Console.WriteLine("[4] Print my favourite songs");//[]
-            Console.WriteLine("[5] Create a playlist");//[]
-            Console.WriteLine("[6] Remove a playlist");//[]
-            Console.WriteLine("[7] Add songs to a playlist ");//[]
-            Console.WriteLine("[8] Remove songs from a playlist");//[]
-            Console.WriteLine("[9] Add songs to favorites");//[]
-            Console.WriteLine("[10] Remove songs from favourites");//[]
-            Console.WriteLine("[11] Log out");//[]
+            Console.WriteLine("[4] Print my favourite songs");//[x]
+            Console.WriteLine("[5] Create a playlist");//[x]
+            Console.WriteLine("[6] Remove a playlist");//[x]
+            Console.WriteLine("[7] Add songs to a playlist ");//[x]
+            Console.WriteLine("[8] Remove songs from a playlist");//[x]
+            Console.WriteLine("[9] Add songs to favorites");//[x]
+            Console.WriteLine("[10] Remove songs from favorites");//[x]
+            Console.WriteLine("[11] Log Out");//[]
             Console.Write("Your choise: ");
         }
     }

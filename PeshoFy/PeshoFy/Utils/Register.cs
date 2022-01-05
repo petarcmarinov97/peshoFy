@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PeshoFy.Classes
@@ -14,6 +12,7 @@ namespace PeshoFy.Classes
         private static string password = string.Empty;
         private static string type = string.Empty;
         private static string dateOfBirth = string.Empty;
+        private static string genresInput = string.Empty;
         private static bool HasUser = false;
 
         public static void UserRegister()
@@ -30,6 +29,7 @@ namespace PeshoFy.Classes
             WriteFullName();
             WriteDateOfBirth();
             WriteType();
+            WriteGenres();
             Console.WriteLine("You have successfully created an account");
             SaveData();
             Login.UserLogin();
@@ -54,7 +54,6 @@ namespace PeshoFy.Classes
                 CheckUsers(username);
             }
         }
-
         public static void WritePassword()
         {
             Console.Write("Password: ");
@@ -99,6 +98,11 @@ namespace PeshoFy.Classes
                 type = Console.ReadLine();
             }
         }
+        public static void WriteGenres()
+        {
+            Console.Write("Genres seperate by ', ' : ");
+            genresInput = Console.ReadLine();
+        }
         public static bool IsValidUsername(string username)
         {
             Regex usernameRegex = new Regex("^[a-zA-Z0-9]+$");
@@ -133,7 +137,7 @@ namespace PeshoFy.Classes
         public static void SaveData()
         {
             Storage.UserTypes.Add(username, type);
-            List<string> genres = new List<string>();
+            List<string> genres = genresInput.Split(", ").ToList<string>();
             List<Album> albums = new List<Album>();
             List<Song> favoriteSongs = new List<Song>();
             List<PlayList> playLists = new List<PlayList>();

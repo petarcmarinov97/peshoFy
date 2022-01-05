@@ -8,7 +8,6 @@ namespace PeshoFy
     {
         static void Main(string[] args)
         {
-            //storage, login, register и ги подавам
             FileReader file = new FileReader();
             file.ReadFile();
             MenuService.DisplayMenu();

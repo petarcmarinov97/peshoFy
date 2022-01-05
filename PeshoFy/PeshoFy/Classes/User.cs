@@ -34,14 +34,14 @@ namespace PeshoFy.Classes
             sb.Append(output);
             if (Genres.Count == 0)
             {
-                sb.Append("There are no genres.\n");
+                sb.Append("   There are no genres.\n");
             }
             else
             {
                 int position = 1;
                 foreach (string genre in Genres)
                 {
-                    sb.Append(String.Format("{0}. {1}\n", position, genre));
+                    sb.Append(String.Format("   {0}. {1}\n", position, genre));
                     position++;
                 }
             }

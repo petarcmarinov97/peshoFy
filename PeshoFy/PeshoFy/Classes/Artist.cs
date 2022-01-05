@@ -21,7 +21,7 @@ namespace PeshoFy.Classes
 
             if (Albums.Count == 0)
             {
-                sb.Append("There are no albums.\n");
+                sb.Append("   There are no albums.\n");
             }
             else
             {
@@ -29,7 +29,7 @@ namespace PeshoFy.Classes
 
                 foreach (Album album in Albums)
                 {
-                    sb.Append(String.Format("{0}. {1}\n", position, album.Name));
+                    sb.Append(String.Format("   {0}. {1}\n", position, album.Name));
                     position++;
                 }
             }

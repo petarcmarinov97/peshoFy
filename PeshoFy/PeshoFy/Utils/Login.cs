@@ -31,7 +31,6 @@ namespace PeshoFy.Classes
                 Console.WriteLine("Wrong username or password. Try again: ");
                 WriteUserName();
                 WritePassword();
-
                 LoginCheck();
             }
 
