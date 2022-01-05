@@ -94,6 +94,22 @@ namespace PeshoFy.Classes
                         {
                             Storage.Albums.Add(album, newAlbum);
                             artist.Albums.Add(newAlbum);
+
+                            Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                            string[] songsToAdd = Console.ReadLine().Split(", ");
+
+                            foreach (string song in songsToAdd)
+                            {
+                                if (Storage.Songs.ContainsKey(song))
+                                {
+                                    artist.AddSongsToAlbum(Storage.Songs[song], album);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Song as {0} does not exists!", song);
+                                }
+                            }
+
                             Console.WriteLine("Album has been added successfully!");
                         }
                         else
@@ -173,8 +189,8 @@ namespace PeshoFy.Classes
                         break;
                     case 8:
                         Console.WriteLine("Logged out...");
-                        //Call a function for writing on the DataBase file []
-                        
+                        file.WriteToFile(Storage.GenerateData());
+
                         break;
                     default:
                         Console.WriteLine("Wrong command, try again !\n");
@@ -223,6 +239,22 @@ namespace PeshoFy.Classes
                         {
                             Storage.Playlists.Add(playlistName, newPlaylist);
                             listener.PlayLists.Add(newPlaylist);
+
+                            Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                            string[] songsToAdd = Console.ReadLine().Split(", ");
+
+                            foreach (string song in songsToAdd)
+                            {
+                                if (Storage.Songs.ContainsKey(song))
+                                {
+                                    listener.AddSongsToPlaylist(Storage.Songs[song], playlistName);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Song as {0} does not exists!", song);
+                                }
+                            }
+
                             Console.WriteLine("Playlist has been added successfully!");
                         }
                         else
@@ -333,7 +365,7 @@ namespace PeshoFy.Classes
                         break;
                     case 11:
                         Console.WriteLine("Logged out...");
-                        file.WriteToFile(Storage.GenerateArtists());
+                        file.WriteToFile(Storage.GenerateData());
                         break;
                     default:
                         Console.WriteLine("Wrong command, try again !\n");

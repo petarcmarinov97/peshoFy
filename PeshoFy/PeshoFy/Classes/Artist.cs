@@ -41,7 +41,7 @@ namespace PeshoFy.Classes
         {
             StringBuilder sb = new StringBuilder();
 
-            if (Albums.Count == 0)
+            if (this.Albums.Count == 0)
             {
                 sb.Append("It is an empty collection.\n");
             }
