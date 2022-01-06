@@ -38,7 +38,7 @@ namespace PeshoFy.Classes
             {
                 if (line != null)
                 {
-                    if (listenerRegex.IsMatch(line)) //Check the line for listener
+                    if (listenerRegex.IsMatch(line))
                     {
                         type = "listener";
                         username = listenerRegex.Match(line).Groups["username"].Value;
@@ -84,7 +84,7 @@ namespace PeshoFy.Classes
                         Storage.Listeners.Add(username, listener);
                         Storage.UserTypes.Add(username, type);
                     }
-                    else if (artistRegex.IsMatch(line)) //Check the line for artist
+                    else if (artistRegex.IsMatch(line))
                     {
                         type = "artist";
                         username = artistRegex.Match(line).Groups["username"].Value;
@@ -114,7 +114,7 @@ namespace PeshoFy.Classes
                         Storage.Artists.Add(username, artist);
                         Storage.UserTypes.Add(username, type);
                     }
-                    else if (albumRegex.IsMatch(line)) //Check the line for album
+                    else if (albumRegex.IsMatch(line))
                     {
                         string albumName = albumRegex.Match(line).Groups["albumName"].Value;
                         string year = albumRegex.Match(line).Groups["year"].Value;
@@ -170,7 +170,7 @@ namespace PeshoFy.Classes
                             }
                         }
                     }
-                    else if (songRegex.IsMatch(line)) //Check the line for song
+                    else if (songRegex.IsMatch(line))
                     {
                         string name = songRegex.Match(line).Groups["name"].Value;
                         string length = songRegex.Match(line).Groups["length"].Value;
@@ -184,7 +184,7 @@ namespace PeshoFy.Classes
                         Storage.Songs[name].Genre = "";
                         Storage.Songs[name].Duration = length;
                     }
-                    else if (playlistRegex.IsMatch(line)) //Check the line for playlist
+                    else if (playlistRegex.IsMatch(line))
                     {
                         string name = playlistRegex.Match(line).Groups["playlistName"].Value;
                         string songsInputString = playlistRegex.Match(line).Groups["songs"].Value.Replace("\'", "");

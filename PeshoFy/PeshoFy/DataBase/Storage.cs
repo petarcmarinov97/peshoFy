@@ -64,18 +64,18 @@ namespace PeshoFy.Classes
                         }
                         else
                         {
-                            sb.Append(String.Format("\'{0}\'])", listener.FavoriteSongs[i].Name));
+                            sb.Append(String.Format("\'{0}\'])(", listener.FavoriteSongs[i].Name));
                         }
                     }
                 }
 
                 if (listener.PlayLists.Count <= 0)
                 {
-                    sb.Append("(playlists: [])</listener>\n");
+                    sb.Append("playlists: [])</listener>\n");
                 }
                 else
                 {
-                    sb.Append("(playlists: [");
+                    sb.Append("playlists: [");
                     for (int i = 0; i < listener.PlayLists.Count; i++)
                     {
                         if (i != listener.PlayLists.Count - 1)

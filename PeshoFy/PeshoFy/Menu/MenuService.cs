@@ -31,11 +31,16 @@ namespace PeshoFy.Classes
         }
         public static void DisplayChoices()
         {
+            while(input != 1 && input != 2)
+            {
+               Console.WriteLine("Invalid command, try again!\n");
+               DisplayHeader();
+            }
+
             switch (input)
             {
                 case 1:
                     Login.UserLogin();
-
                     break;
                 case 2:
                     Register.UserRegister();
@@ -354,7 +359,7 @@ namespace PeshoFy.Classes
             Console.WriteLine("[5] Remove album");//[x]
             Console.WriteLine("[6] Add songs to album");//[x]
             Console.WriteLine("[7] Remove songs from album");//[x]
-            Console.WriteLine("[8] Log Out");//[]
+            Console.WriteLine("[8] Log Out");//[x]
             Console.Write("Your choise: ");
         }
         public static void ListenerDisplay()
@@ -370,7 +375,7 @@ namespace PeshoFy.Classes
             Console.WriteLine("[8] Remove songs from a playlist");//[x]
             Console.WriteLine("[9] Add songs to favorites");//[x]
             Console.WriteLine("[10] Remove songs from favorites");//[x]
-            Console.WriteLine("[11] Log Out");//[]
+            Console.WriteLine("[11] Log Out");//[x]
             Console.Write("Your choise: ");
         }
     }
