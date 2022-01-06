@@ -49,7 +49,7 @@ namespace PeshoFy.Classes
             HasUser = CheckUsers(username);
             while (HasUser == true)
             {
-                Console.Write("The following username already exists. Try another one\nUsername:");
+                Console.Write("The following username already exists. Try another one!\nUsername:");
                 username = Console.ReadLine();
                 HasUser = CheckUsers(username);
             }

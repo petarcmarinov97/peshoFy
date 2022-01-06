@@ -27,16 +27,11 @@ namespace PeshoFy.Classes
             Console.WriteLine(welcome);
             Console.WriteLine(options);
             Console.Write("Input your choice: ");
-            input = int.Parse(Console.ReadLine());
+
         }
         public static void DisplayChoices()
         {
-            while(input != 1 && input != 2)
-            {
-               Console.WriteLine("Invalid command, try again!\n");
-               DisplayHeader();
-            }
-
+            isValidInput("displayChoices");
             switch (input)
             {
                 case 1:
@@ -46,6 +41,9 @@ namespace PeshoFy.Classes
                     Register.UserRegister();
                     break;
                 default:
+                    Console.WriteLine("Wrong command, try again !\n");
+                    DisplayHeader();
+                    DisplayChoices();
                     break;
             }
         }
@@ -58,15 +56,13 @@ namespace PeshoFy.Classes
         }
         public static void LoginDisplay()
         {
-            int input;
 
             if (accountType == Constants.ARTIST)
             {
                 Artist artist = Storage.Artists[username];
                 ArtistDisplay();
-                input = int.Parse(Console.ReadLine());
-                Console.WriteLine();
 
+                isValidInput("artistDisplay");
                 switch (input)
                 {
                     case 1:
@@ -183,7 +179,6 @@ namespace PeshoFy.Classes
 
                         break;
                     default:
-                        Console.WriteLine("Wrong command, try again !\n");
                         LoginDisplay();
                         break;
                 }
@@ -192,8 +187,7 @@ namespace PeshoFy.Classes
             {
                 Listener listener = Storage.Listeners[username];
                 ListenerDisplay();
-                input = int.Parse(Console.ReadLine());
-
+                isValidInput("listenerDisplay");
                 switch (input)
                 {
                     case 1:
@@ -377,6 +371,59 @@ namespace PeshoFy.Classes
             Console.WriteLine("[10] Remove songs from favorites");//[x]
             Console.WriteLine("[11] Log Out");//[x]
             Console.Write("Your choise: ");
+        }
+        public static void isValidInput(string typeDisplay)
+        {
+            if (typeDisplay == "displayChoices")
+            {
+                bool validInput = false;
+                try
+                {
+                    validInput = int.TryParse(Console.ReadLine(), out input);
+                    if (validInput && (input < 1 || input > 2))
+                    {
+                        validInput = false;
+                    }
+                }
+                catch
+                {
+                    throw new FormatException("Wrong command, try again !\n");
+                }
+            }
+
+            if (typeDisplay == "artistDisplay")
+            {
+                bool validInput = false;
+                try
+                {
+                    validInput = int.TryParse(Console.ReadLine(), out input);
+                    if (validInput && (input < 1 || input > 8))
+                    {
+                        validInput = false;
+                    }
+                }
+                catch
+                {
+                    throw new FormatException("Wrong command, try again !\n");
+                }
+            }
+
+            if (typeDisplay == "listenerDisplay")
+            {
+                bool validInput = false;
+                try
+                {
+                    validInput = int.TryParse(Console.ReadLine(), out input);
+                    if (validInput && (input < 1 || input > 11))
+                    {
+                        validInput = false;
+                    }
+                }
+                catch
+                {
+                    throw new FormatException("Wrong command, try again !\n");
+                }
+            }
         }
     }
 }
