@@ -104,7 +104,7 @@ namespace PeshoFy.Classes
 
             if (album == null)
             {
-                
+
                 List<Song> songs = new List<Song>();
                 Artist artist = Storage.Artists[this.Username];
                 Album albumToReturn = new Album(albumName, "", songs, artist, albumGenres, albumYear);

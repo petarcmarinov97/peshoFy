@@ -56,7 +56,6 @@ namespace PeshoFy.Classes
         }
         public static void LoginDisplay()
         {
-
             if (accountType == Constants.ARTIST)
             {
                 Artist artist = Storage.Artists[username];
@@ -146,7 +145,6 @@ namespace PeshoFy.Classes
                     case 7:
                         Console.WriteLine("Enter album from which you want to remove songs: ");
                         album = Console.ReadLine();
-
 
                         if (Storage.Albums.ContainsKey(album))
                         {
