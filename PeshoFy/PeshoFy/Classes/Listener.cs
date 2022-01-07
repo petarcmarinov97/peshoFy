@@ -64,12 +64,12 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public override void PrintCollection(string type)
+        public override void PrintCollection(Constants.typeCollection type)
         {
             StringBuilder sb = new StringBuilder();
             switch (type)
             {
-                case "playlists":
+                case Constants.typeCollection.playlists:
                     if (PlayLists.Count == 0)
                     {
                         sb.Append("It is an empty collection.\n");
@@ -103,7 +103,7 @@ namespace PeshoFy.Classes
                     Console.WriteLine(sb.ToString());
                     break;
 
-                case "favorites":
+                case Constants.typeCollection.favorites:
                     if (this.FavoriteSongs.Count == 0)
                     {
                         sb.Append("   There are no favorite songs.\n");

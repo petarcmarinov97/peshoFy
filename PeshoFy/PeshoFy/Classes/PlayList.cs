@@ -142,6 +142,7 @@ namespace PeshoFy.Classes
 
                 sb.Append(String.Format("Playlist Duration: {0}:{1}:{2}\n", outputHours, outputMinutes, outputSeconds));
                 this.Duration = String.Format("{0}:{1}:{2}\n", outputHours, outputMinutes, outputSeconds);
+                //need to be removed
             }
 
             return sb.ToString();

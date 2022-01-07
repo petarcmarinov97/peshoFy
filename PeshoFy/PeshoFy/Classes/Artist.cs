@@ -21,7 +21,7 @@ namespace PeshoFy.Classes
             sb.Append(base.ToString());
             sb.Append(String.Format("Albums: \n"));
 
-            if (Albums.Count == 0)
+            if (this.Albums.Count == 0)
             {
                 sb.Append("   There are no albums.\n");
             }
@@ -29,7 +29,7 @@ namespace PeshoFy.Classes
             {
                 int position = 1;
 
-                foreach (Album album in Albums)
+                foreach (Album album in this.Albums)
                 {
                     sb.Append(String.Format("   {0}. {1}\n", position, album.Name));
                     position++;
@@ -39,11 +39,11 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public override void PrintCollection(string type)
+        public override void PrintCollection(Constants.typeCollection type)
         {
             switch (type)
             {
-                case "albums":
+                case Constants.typeCollection.albums:
                     StringBuilder sb = new StringBuilder();
 
                     if (this.Albums.Count == 0)
