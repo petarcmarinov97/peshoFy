@@ -11,7 +11,6 @@ namespace PeshoFy.Classes
         string Password { get; set; }
         string Username { get; set; }
 
-        void PrintCollection(string typeCollection);
-        string ToString();
+        void PrintCollection(string type);
     }
 }

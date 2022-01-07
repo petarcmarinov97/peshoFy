@@ -13,9 +13,9 @@ namespace PeshoFy.Classes
         private static string type = string.Empty;
         private static string dateOfBirth = string.Empty;
         private static string genresInput = string.Empty;
-        private static bool HasUser = false;
+        private static bool hasUser = false;
 
-        public static void UserRegister()
+        public static void RegisterUser()
         {
             FillRegisterForm();
         }
@@ -32,7 +32,7 @@ namespace PeshoFy.Classes
             WriteGenres();
             Console.WriteLine("You have successfully created an account");
             SaveData();
-            Login.UserLogin();
+            Login.LoginUser();
         }
 
         public static void WriteUsername()
@@ -40,18 +40,18 @@ namespace PeshoFy.Classes
             Console.Write("Username: ");
             username = Console.ReadLine();
 
-            while (IsValidUsername(username) == false)
+            while (!IsValidUsername(username))
             {
                 Console.Write("Invalid username. Try with a new one!:\nUsername: ");
                 username = Console.ReadLine();
             }
 
-            HasUser = CheckUsers(username);
-            while (HasUser == true)
+            hasUser = HasUserCoincidence(username);
+            while (hasUser)
             {
                 Console.Write("The following username already exists. Try another one!\nUsername:");
                 username = Console.ReadLine();
-                HasUser = CheckUsers(username);
+                hasUser = HasUserCoincidence(username);
             }
         }
 
@@ -60,7 +60,7 @@ namespace PeshoFy.Classes
             Console.Write("Password: ");
             password = Console.ReadLine();
 
-            while (IsValidPassword(password) == false)
+            while (!IsValidPassword(password))
             {
                 Console.Write("Invalid password. Try with a new one!:\nPassword: ");
                 password = Console.ReadLine();
@@ -72,7 +72,7 @@ namespace PeshoFy.Classes
             Console.Write("Full Name: ");
             fullName = Console.ReadLine();
 
-            while (IsValidName(fullName) == false)
+            while (!IsValidName(fullName))
             {
                 Console.Write("Invalid Full Name input. Try with a new one!:\nFull Name: ");
                 fullName = Console.ReadLine();
@@ -84,7 +84,7 @@ namespace PeshoFy.Classes
             Console.Write("Date of Birth (DD/MM/YYYY): ");
             dateOfBirth = Console.ReadLine();
 
-            while (IsValidDateOfBirth(dateOfBirth) == false)
+            while (!IsValidDateOfBirth(dateOfBirth))
             {
                 Console.Write("Invalid Date of Birth. Try with a new one!:\nDate of Birth (DD/MM/YYYY): ");
                 dateOfBirth = Console.ReadLine();
@@ -141,7 +141,7 @@ namespace PeshoFy.Classes
             return (type == "listener" || type == "artist");
         }
 
-        public static bool CheckUsers(string username)
+        public static bool HasUserCoincidence(string username)
         {
             return Storage.UserTypes.Keys.Contains(username);
         }
@@ -154,10 +154,12 @@ namespace PeshoFy.Classes
             List<Album> albums = new List<Album>();
             List<Song> favoriteSongs = new List<Song>();
             List<PlayList> playLists = new List<PlayList>();
+
             if (type == Constants.ARTIST)
             {
                 Storage.Artists.Add(username, new Artist(username, password, fullName, dateOfBirth, genres, albums));
             }
+
             if (type == Constants.LISTENER)
             {
                 Storage.Listeners.Add(username, new Listener(username, password, fullName, dateOfBirth, genres, favoriteSongs, playLists));

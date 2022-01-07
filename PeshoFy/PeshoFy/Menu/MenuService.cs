@@ -13,12 +13,14 @@ namespace PeshoFy.Classes
         private static string username;
         private static string accountType;
         private static FileWriter file = new FileWriter();
+
         public static void DisplayMenu()
         {
             DisplayHeader();
             DisplayChoices();
-            Displayer();
+            LoginDisplay();
         }
+
         public static void DisplayHeader()
         {
             welcome = "Welcome to the our Console Application\nChoose one of the following options below\n";
@@ -29,16 +31,17 @@ namespace PeshoFy.Classes
             Console.Write("Input your choice: ");
 
         }
+
         public static void DisplayChoices()
         {
             isValidInput("displayChoices");
             switch (input)
             {
                 case 1:
-                    Login.UserLogin();
+                    Login.LoginUser();
                     break;
                 case 2:
-                    Register.UserRegister();
+                    Register.RegisterUser();
                     break;
                 default:
                     Console.WriteLine("Wrong command, try again !\n");
@@ -47,15 +50,13 @@ namespace PeshoFy.Classes
                     break;
             }
         }
-        public static void Displayer()
+
+        public static void LoginDisplay()
         {
             string[] userInfo = Login.GetAccountType();
             username = userInfo[0];
             accountType = userInfo[1];
-            LoginDisplay();
-        }
-        public static void LoginDisplay()
-        {
+
             if (accountType == Constants.ARTIST)
             {
                 Artist artist = Storage.Artists[username];
@@ -341,6 +342,7 @@ namespace PeshoFy.Classes
                 }
             }
         }
+
         public static void ArtistDisplay()
         {
             Console.WriteLine("Here are your options: ");
@@ -354,6 +356,7 @@ namespace PeshoFy.Classes
             Console.WriteLine("[8] Log Out");//[x]
             Console.Write("Your choise: ");
         }
+
         public static void ListenerDisplay()
         {
             Console.WriteLine("Here are your options: ");
@@ -370,6 +373,7 @@ namespace PeshoFy.Classes
             Console.WriteLine("[11] Log Out");//[x]
             Console.Write("Your choise: ");
         }
+
         public static void isValidInput(string typeDisplay)
         {
             if (typeDisplay == "displayChoices")

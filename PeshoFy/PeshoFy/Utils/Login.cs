@@ -12,9 +12,9 @@ namespace PeshoFy.Classes
     {
         private static string username = string.Empty;
         private static string password = string.Empty;
-        private static bool approved = false;
+        private static bool isApproved = false;
         private static string accountType = string.Empty;
-        public static void UserLogin()
+        public static void LoginUser()
         {
             FillLoginForm();
         }
@@ -25,14 +25,14 @@ namespace PeshoFy.Classes
 
             WriteUserName();
             WritePassword();
-            LoginCheck();
+            CheckForUser();
 
-            while (approved == false)
+            while (!isApproved)
             {
                 Console.WriteLine("Wrong username or password. Try again: ");
                 WriteUserName();
                 WritePassword();
-                LoginCheck();
+                CheckForUser();
             }
 
             Console.WriteLine("You have successfully Logged in");
@@ -40,7 +40,7 @@ namespace PeshoFy.Classes
 
         }
         
-        public static void LoginCheck()
+        public static void CheckForUser()
         {
             if (Storage.UserTypes.Keys.Contains(username))
             {
@@ -48,12 +48,12 @@ namespace PeshoFy.Classes
 
                 if (accountType == Constants.LISTENER)
                 {
-                    approved = Storage.Listeners[username].Password == password;
+                    isApproved = Storage.Listeners[username].Password == password;
                 }
 
                 if (accountType == Constants.ARTIST)
                 {
-                    approved = Storage.Artists[username].Password == password;
+                    isApproved = Storage.Artists[username].Password == password;
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace PeshoFy.Classes
             Console.Write("Username: ");
             username = Console.ReadLine();
 
-            while (IsValidUsername(username) == false)
+            while (!IsValidUsername(username))
             {
                 Console.Write("Invalid username. Try with a new one!:\nUsername: ");
                 username = Console.ReadLine();
@@ -75,7 +75,7 @@ namespace PeshoFy.Classes
             Console.Write("Password: ");
             password = Console.ReadLine();
 
-            while (IsValidPassword(password) == false)
+            while (!IsValidPassword(password))
             {
                 Console.Write("Invalid password. Try with a new one!:\nPassword: ");
                 password = Console.ReadLine();

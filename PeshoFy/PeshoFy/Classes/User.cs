@@ -12,6 +12,7 @@ namespace PeshoFy.Classes
         private string fullName;
         private string dateOfBirth;
         private List<string> genres;
+
         public User(string username, string password, string fullName, string dateOfBirth, List<string> genres)
         {
             this.Username = username;
@@ -48,7 +49,9 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-        virtual public void PrintCollection(string typeCollection) { }
+        
+        virtual public void PrintCollection(string type) { }
+        
         virtual public void PrintCollectionInfo(string collectionName) { }
     }
 }

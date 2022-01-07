@@ -16,11 +16,13 @@ namespace PeshoFy.Classes
         }
 
         public List<Song> FavoriteSongs { get => favoriteSongs; set => favoriteSongs = value; }
+
         public List<PlayList> PlayLists
         {
             get => playLists;
             set => playLists = value;
         }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -61,10 +63,11 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-        public override void PrintCollection(string typeCollection)
+
+        public override void PrintCollection(string type)
         {
             StringBuilder sb = new StringBuilder();
-            switch (typeCollection)
+            switch (type)
             {
                 case "playlists":
                     if (PlayLists.Count == 0)
@@ -75,22 +78,22 @@ namespace PeshoFy.Classes
                     {
                         int playlistPosition = 1;
 
-                        foreach (PlayList playlist in Storage.Listeners[this.Username].PlayLists)
+                        foreach (PlayList playlist in this.PlayLists)
                         {
                             if (playlist != null)
                             {
-                                sb.Append(String.Format("{0}. Album - {1}\n", playlistPosition, playlist.Name));
+                                sb.Append(String.Format("{0}. Playlist - {1}\n", playlistPosition, playlist.Name));
                             }
 
-                            if (Storage.Playlists[playlist.Name].Songs.Count == 0)
+                            if (playlist.Songs.Count == 0)
                             {
-                                sb.Append("   There are no songs in the current album.\n");
+                                sb.Append("   There are no songs in the current playlist.\n");
                             }
                             else
                             {
-                                int songsCount = Storage.Playlists[playlist.Name].Songs.Count;
+                                int songsCount = playlist.Songs.Count;
 
-                                sb.Append(String.Format("   There are {0} songs in this Album\n", songsCount));
+                                sb.Append(String.Format("   There are {0} songs in this Playlist\n", songsCount));
                             }
 
                             playlistPosition++;
@@ -122,6 +125,7 @@ namespace PeshoFy.Classes
                     break;
             }
         }
+
         public override void PrintCollectionInfo(string playlistName)
         {
             StringBuilder sb = new StringBuilder();
@@ -143,6 +147,7 @@ namespace PeshoFy.Classes
 
             Console.Write("\n{0}", sb.ToString());
         }
+
         public PlayList CreatePlayList(string name, List<string> genres)
         {
             PlayList playlist = PlayLists.Find(playlist => playlist.Name == name);
@@ -177,6 +182,7 @@ namespace PeshoFy.Classes
 
             return null;
         }
+
         public void DeletePlayList(string name)
         {
             PlayList playlist = PlayLists.Find(playlist => playlist.Name == name);
@@ -191,9 +197,10 @@ namespace PeshoFy.Classes
                 PlayLists.Remove(playlist);
             }
         }
+
         public void AddSongsToPlaylist(Song songtoAdd, string playlistName)
         {
-            PlayList playlist = Storage.Playlists[playlistName];
+            PlayList playlist = this.playLists.Find(playlist => playlist.Name == playlistName);
 
             if (playlist == null)
             {
@@ -204,6 +211,7 @@ namespace PeshoFy.Classes
                 playlist.AddSong(songtoAdd);
             }
         }
+
         public void RemoveSongsFromPlaylist(Song songToRemove, string playlistName)
         {
             PlayList playlist = Storage.Playlists[playlistName];
@@ -217,6 +225,7 @@ namespace PeshoFy.Classes
                 playlist.RemoveSong(songToRemove);
             }
         }
+
         public void AddSongsToFavorites(Song songToAdd)
         {
             if (FavoriteSongs.Contains(songToAdd))
@@ -229,6 +238,7 @@ namespace PeshoFy.Classes
                 Console.WriteLine("Song {0} has been added to favorites!", songToAdd.Name);
             }
         }
+
         public void RemoveSongsFromFavorites(string songToRemove)
         {
             var songToDelete = FavoriteSongs.Find(x => x.Name == songToRemove);
