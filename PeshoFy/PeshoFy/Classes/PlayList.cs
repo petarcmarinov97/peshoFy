@@ -24,43 +24,14 @@ namespace PeshoFy.Classes
 
         public void AddSong(Song songToAdd)
         {
-            if (Songs.Count == 0)
-            {
-                Songs.Add(songToAdd);
-                Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
-            }
-            else
-            {
-                if (Songs.Contains(songToAdd))
-                {
-                    Console.WriteLine("The song {0} is already in this Playlist!\n", songToAdd.Name);
-                }
-                else
-                {
-                    Songs.Add(songToAdd);
-                    Console.WriteLine("The song {0} has been added to the Playlist\n", songToAdd.Name);
-                }
-            }
+            Songs.Add(songToAdd);
         }
+
         public void RemoveSong(Song songToRemove)
         {
-            if (Songs.Count == 0)
-            {
-                Console.WriteLine("There is no Songs in the Playlist!\n");
-            }
-            else
-            {
-                if (Songs.Contains(songToRemove))
-                {
-                    Songs.Remove(songToRemove);
-                    Console.WriteLine("The song {0} has been removed from the Playlist\n", songToRemove.Name);
-                }
-                else
-                {
-                    Console.WriteLine("A song with this name do not exist in the Playlist!\n");
-                }
-            }
+            Songs.Remove(songToRemove);
         }
+
         public override string GetInfo()
         {
             StringBuilder sb = new StringBuilder();
@@ -76,7 +47,7 @@ namespace PeshoFy.Classes
             StringBuilder result = new StringBuilder();
             result.Append("Genres: ");
 
-            if(this.Genres != null)
+            if (this.Genres != null)
             {
                 foreach (string genre in this.Genres)
                 {

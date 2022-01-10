@@ -83,7 +83,7 @@ namespace PeshoFy.Classes
                     break;
 
                 case (int)Constants.artistMenu.printAlbumInfo:
-                    string album = WriteAlbumName();
+                    string album = WriteName(Constants.typeName.album);
 
                     artist.PrintCollectionInfo(album);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
@@ -91,7 +91,7 @@ namespace PeshoFy.Classes
                     break;
 
                 case (int)Constants.artistMenu.createAlbum:
-                    album = WriteAlbumName();
+                    album = WriteName(Constants.typeName.album);
                     var albumYear = WriteYear();
                     var albumGenres = WriteGenres();
 
@@ -113,7 +113,7 @@ namespace PeshoFy.Classes
                     break;
 
                 case (int)Constants.artistMenu.removeAlbum:
-                    album = WriteAlbumName();
+                    album = WriteName(Constants.typeName.album);
 
                     if (artist.Albums.Find(x => x.Name == album) == null)
                     {
@@ -129,7 +129,7 @@ namespace PeshoFy.Classes
                     break;
 
                 case (int)Constants.artistMenu.addSongsToAlbum:
-                    album = WriteAlbumName();
+                    album = WriteName(Constants.typeName.album);
 
                     if (Storage.Albums.ContainsKey(album) && artist.Albums.Find(x => x.Name == album) != null)
                     {
@@ -197,72 +197,74 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.printMyPlaylists:
                     listener.PrintCollection(Constants.typeCollection.playlists);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.printPlaylistInfo:
-                    Console.WriteLine("Enter playlist name: ");
-                    string playlistName = Console.ReadLine();
+                    var playlistName = WriteName(Constants.typeName.playlist);
                     listener.PrintCollectionInfo(playlistName);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.printMyFavoriteSongs:
                     listener.PrintCollection(Constants.typeCollection.favorites);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.createPlaylist:
-                    Console.WriteLine("Enter playlist name: ");
-                    playlistName = Console.ReadLine();
-                    Console.WriteLine("Enter gengre/genres separated by ', ': ");
-                    List<string> playlistGengres = Console.ReadLine().Split(", ").ToList();
-                    PlayList newPlaylist = listener.CreatePlayList(playlistName, playlistGengres);
+                    playlistName = WriteName(Constants.typeName.playlist);
+                    var playlistGengres = WriteGenres();
 
-                    if (newPlaylist != null && !Storage.Albums.ContainsKey(playlistName) && newPlaylist.Songs.Count > 0)
-                    {
-                        Storage.Playlists.Add(playlistName, newPlaylist);
-                        listener.PlayLists.Add(newPlaylist);
-
-                        Console.WriteLine("Playlist has been added successfully!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("There was an error with creating the playlist");
-                    }
-
-                    Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
-                    LoginDisplay();
-                    break;
-                case (int)Constants.listenerMenu.removePlaylist:
-                    Console.WriteLine("Enter album name which you want to be removed: ");
-                    playlistName = Console.ReadLine();
-                    listener.DeletePlayList(playlistName);
-                    Storage.Playlists.Remove(playlistName);
-                    Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
-                    LoginDisplay();
-                    break;
-                case (int)Constants.listenerMenu.addSongsToPlaylist:
-                    Console.WriteLine("Enter playlist name in which to add the songs: ");
-                    playlistName = Console.ReadLine();
-
-                    if (Storage.Playlists.ContainsKey(playlistName))
+                    if (listener.PlayLists.Find(x => x.Name == playlistName) == null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        string[] songsToAdd = Console.ReadLine().Split(", ");
+                        var playlistSongs = WriteSongs();
 
-                        foreach (string song in songsToAdd)
+                        PlayList newPlaylist = listener.CreatePlayList(playlistName, playlistGengres, playlistSongs);
+                        SavePlaylist(listener, newPlaylist);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Playlist already exists!");
+                    }
+
+                    Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
+                    LoginDisplay();
+                    break;
+
+                case (int)Constants.listenerMenu.removePlaylist:
+                    playlistName = WriteName(Constants.typeName.playlist);
+
+                    if (listener.PlayLists.Find(playlist => playlist.Name == playlistName) == null)
+                    {
+                        Console.WriteLine("Playlist with this name does not exist!");
+                    }
+                    else
+                    {
+                        DeletePlaylist(listener, playlistName);
+                    }
+
+                    Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
+                    LoginDisplay();
+                    break;
+
+                case (int)Constants.listenerMenu.addSongsToPlaylist:
+                    playlistName = WriteName(Constants.typeName.playlist);
+
+                    if (Storage.Playlists.ContainsKey(playlistName) && listener.PlayLists.Find(x => x.Name == playlistName) != null)
+                    {
+                        Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                        var songsToAdd = WriteSongs();
+
+                        foreach (var song in songsToAdd)
                         {
-                            if (Storage.Songs.ContainsKey(song))
-                            {
-                                listener.AddSongsToPlaylist(Storage.Songs[song], playlistName);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Song as {0} does not exists!", song);
-                            }
+                            listener.AddSongsToPlaylist(song, playlistName);
                         }
                     }
                     else
@@ -273,25 +275,18 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
-                case (int)Constants.listenerMenu.removeSongsFromPlaylist:
-                    Console.WriteLine("Enter playlist from which you want to remove songs: ");
-                    playlistName = Console.ReadLine();
 
-                    if (Storage.Playlists.ContainsKey(playlistName))
+                case (int)Constants.listenerMenu.removeSongsFromPlaylist:
+                    playlistName = WriteName(Constants.typeName.playlist);
+
+                    if (Storage.Playlists.ContainsKey(playlistName) && listener.PlayLists.Find(x => x.Name == playlistName) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be removed, seperated by ', ' :");
-                        string[] songsToRemove = Console.ReadLine().Split(", ");
+                        var songsToRemove = WriteSongs();
 
-                        foreach (string song in songsToRemove)
+                        foreach (var song in songsToRemove)
                         {
-                            if (Storage.Songs.ContainsKey(song))
-                            {
-                                listener.RemoveSongsFromPlaylist(Storage.Songs[song], playlistName);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Song as {0} does not exists!", song);
-                            }
+                            listener.RemoveSongsFromPlaylist(song, playlistName);
                         }
                     }
                     else
@@ -302,20 +297,15 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.addSongsToFavorites:
                     Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                    string[] songsToFavorites = Console.ReadLine().Split(", ");
+                    var songsToFavorites = WriteSongs();
 
-                    foreach (string song in songsToFavorites)
+                    foreach (var song in songsToFavorites)
                     {
-                        if (Storage.Songs.ContainsKey(song))
-                        {
-                            listener.AddSongsToFavorites(Storage.Songs[song]);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Song as {0} does not exists!", song);
-                        }
+
+                        listener.AddSongsToFavorites(song);
                     }
 
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
@@ -334,10 +324,12 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.listenerMenu.logout:
                     Console.WriteLine("Logged out...");
                     file.WriteToFile(Storage.GenerateData());
                     break;
+
                 default:
                     Console.WriteLine(Constants.WRONG_COMMAND_MESSAGE);
                     LoginDisplay();
@@ -433,13 +425,13 @@ namespace PeshoFy.Classes
         public static List<Song> WriteSongs()
         {
             string[] songsToAdd = Console.ReadLine().Split(", ");
-            List<Song> albumSongs = new List<Song>();
+            List<Song> songsToReturn = new List<Song>();
 
             foreach (string song in songsToAdd)
             {
                 if (Storage.Songs.ContainsKey(song) && song != "")
                 {
-                    albumSongs.Add(Storage.Songs[song]);
+                    songsToReturn.Add(Storage.Songs[song]);
                 }
                 else
                 {
@@ -447,7 +439,7 @@ namespace PeshoFy.Classes
                 }
             }
 
-            return albumSongs;
+            return songsToReturn;
         }
 
         public static List<string> WriteGenres()
@@ -465,12 +457,22 @@ namespace PeshoFy.Classes
             return albumYear;
         }
 
-        public static string WriteAlbumName()
+        public static string WriteName(Constants.typeName type)
         {
-            Console.WriteLine("Enter album name: ");
-            string album = Console.ReadLine();
+            string name = string.Empty;
+            if (type == Constants.typeName.album)
+            {
+                Console.WriteLine("Enter album name: ");
+                name = Console.ReadLine();
+            }
 
-            return album;
+            if (type == Constants.typeName.playlist)
+            {
+                Console.WriteLine("Enter playlist name: ");
+                name = Console.ReadLine();
+            }
+
+            return name;
         }
 
         public static void SaveAlbum(Artist artist, Album album)
@@ -486,6 +488,28 @@ namespace PeshoFy.Classes
             {
                 Console.WriteLine("There was an error with creating the album");
             }
+        }
+
+        public static void SavePlaylist(Listener listener, PlayList playlist)
+        {
+            if (playlist != null && !Storage.Playlists.ContainsKey(playlist.Name) && playlist.Songs.Count > 0)
+            {
+                Storage.Playlists.Add(playlist.Name, playlist);
+                listener.PlayLists.Add(playlist);
+
+                Console.WriteLine("Playlist has been added successfully!");
+            }
+            else
+            {
+                Console.WriteLine("There was an error with creating the playlist");
+            }
+        }
+
+        public static void DeletePlaylist(Listener listener, string playlist)
+        {
+            listener.DeletePlayList(playlist);
+            Storage.Playlists.Remove(playlist);
+            Console.WriteLine("Playlist has been removed succesfully");
         }
 
         public static void DeleteAlbum(Artist artist, string album)
