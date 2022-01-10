@@ -54,15 +54,15 @@ namespace PeshoFy.Classes
 
             if (accountType == Constants.ARTIST)
             {
-                ArtistActions();
+                PerformArtistActions();
             }
             else if (accountType == Constants.LISTENER)
             {
-                ListenerActions();
+                PerformListenerActions();
             }
         }
 
-        public static void ArtistActions()
+        public static void PerformArtistActions()
         {
             Artist artist = Storage.Artists[username];
             ShowArtistDisplay();
@@ -187,7 +187,7 @@ namespace PeshoFy.Classes
             }
         }
 
-        public static void ListenerActions()
+        public static void PerformListenerActions()
         {
             Listener listener = Storage.Listeners[username];
             ShowListenerDisplay();

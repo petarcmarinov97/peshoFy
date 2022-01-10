@@ -13,6 +13,7 @@ namespace PeshoFy.Classes
         {
             this.FavoriteSongs = favoriteSongs;
             this.PlayLists = playLists;
+            this.Genres = genres;
         }
 
         public List<Song> FavoriteSongs { get => favoriteSongs; set => favoriteSongs = value; }
@@ -130,19 +131,14 @@ namespace PeshoFy.Classes
         {
             StringBuilder sb = new StringBuilder();
 
-            PlayList playlist = PlayLists.Find(playlist => playlist.Name == playlistName);
-
-            if (playlist == null)
+            if (PlayLists.Find(playlist => playlist.Name == playlistName) == null)
             {
                 sb.Append("There are no Playlists with this name!\n");
             }
             else
             {
-                sb.Append(String.Format("Playlist name: {0}\n", playlistName));
-
                 PlayList currentPlaylist = Storage.Playlists[playlistName];
-
-                sb.Append(currentPlaylist.GetDurationTime());
+                sb.Append(currentPlaylist.GetInfo());
             }
 
             Console.Write("\n{0}", sb.ToString());
@@ -156,7 +152,7 @@ namespace PeshoFy.Classes
             {
                 List<Song> songs = new List<Song>();
                 Listener listener = Storage.Listeners[this.Username];
-                PlayList playlistToReturn = new PlayList(name, "", songs, listener, genres);
+                PlayList playlistToReturn = new PlayList(name, songs, listener, genres);
 
                 Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
                 string[] songsToAdd = Console.ReadLine().Split(", ");

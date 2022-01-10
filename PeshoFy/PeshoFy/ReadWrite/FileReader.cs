@@ -231,7 +231,6 @@ namespace PeshoFy.Classes
                 PlayList playlist = new PlayList(name);
                 Storage.Playlists.Add(name, playlist);
             }
-            Storage.Playlists[name].Duration = "";
 
             foreach (string songName in songs)
             {
