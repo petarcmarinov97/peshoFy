@@ -15,7 +15,7 @@
 <song><Not Afraid>[4:19]</song>
 <song><Till I Collapse>[4:59]</song>
 <song><Godzilla>[4:27]</song>
-<album><Obseben>[2002](genres: ['rock'])(songs: ['Yarost', 'Obseben', 'Venom'])</album>
+<album><Obseben>[2002](genres: ['rock'])(songs: ['Obseben', 'Venom'])</album>
 <album><Rock>[1993](genres: ['rock'])(songs: ['Enter Sandman', 'Yarost'])</album>
 <album><Black Album>[1991](genres: ['metal'])(songs: ['Enter Sandman', 'Sad but True', 'Nothing Else Matters'])</album>
 <playlists><Black Playlist>(songs: ['Yarost', 'Obseben'])</playlists>

@@ -75,69 +75,70 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.printMyAlbums:
                     artist.PrintCollection(Constants.typeCollection.albums);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.printAlbumInfo:
-                    Console.WriteLine("Enter album name: ");
-                    string album = Console.ReadLine();
+                    string album = WriteAlbumName();
+
                     artist.PrintCollectionInfo(album);
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.createAlbum:
-                    Console.WriteLine("Enter album name: ");
-                    album = Console.ReadLine();
-                    Console.WriteLine("Enter Year of Release: ");
-                    string albumYear = Console.ReadLine();
-                    Console.WriteLine("Enter gengre/genres separated by ', ': ");
-                    List<string> albumGenres = Console.ReadLine().Split(", ").ToList();
-                    Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear);
+                    album = WriteAlbumName();
+                    var albumYear = WriteYear();
+                    var albumGenres = WriteGenres();
 
-                    if (newAlbum != null && !Storage.Albums.ContainsKey(album) && newAlbum.Songs.Count > 0)
+                    if (artist.Albums.Find(x => x.Name == album) == null)
                     {
-                        Storage.Albums.Add(album, newAlbum);
-                        artist.Albums.Add(newAlbum);
+                        Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
+                        var albumSongs = WriteSongs();
 
-                        Console.WriteLine("Album has been added successfully!");
+                        Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear, albumSongs);
+                        SaveAlbum(artist, newAlbum);
                     }
                     else
                     {
-                        Console.WriteLine("There was an error with creating the album");
+                        Console.WriteLine("Album already exists!");
                     }
 
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.removeAlbum:
-                    Console.WriteLine("Enter album name which you want to be removed: ");
-                    album = Console.ReadLine();
-                    artist.DeleteAlbum(album);
-                    Storage.Albums.Remove(album);
+                    album = WriteAlbumName();
+
+                    if (artist.Albums.Find(x => x.Name == album) == null)
+                    {
+                        Console.WriteLine("Album with this name does not exist!");
+                    }
+                    else
+                    {
+                        DeleteAlbum(artist, album);
+                    }
+
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
-                case (int)Constants.artistMenu.addSongsToAlbum:
-                    Console.WriteLine("Enter album name in which to add the songs: ");
-                    album = Console.ReadLine();
 
-                    if (Storage.Albums.ContainsKey(album))
+                case (int)Constants.artistMenu.addSongsToAlbum:
+                    album = WriteAlbumName();
+
+                    if (Storage.Albums.ContainsKey(album) && artist.Albums.Find(x => x.Name == album) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        string[] songsToAdd = Console.ReadLine().Split(", ");
+                        var songsToAdd = WriteSongs();
 
-                        foreach (string song in songsToAdd)
+                        foreach (var song in songsToAdd)
                         {
-                            if (Storage.Songs.ContainsKey(song))
-                            {
-                                artist.AddSongsToAlbum(Storage.Songs[song], album);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Song as {0} does not exists!", song);
-                            }
+                            artist.AddSongsToAlbum(song, album);
                         }
                     }
                     else
@@ -148,39 +149,36 @@ namespace PeshoFy.Classes
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.removeSongsFromAlbum:
                     Console.WriteLine("Enter album from which you want to remove songs: ");
                     album = Console.ReadLine();
 
-                    if (Storage.Albums.ContainsKey(album))
+                    if (Storage.Albums.ContainsKey(album) && artist.Albums.Find(x => x.Name == album) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be removed, seperated by ', ' :");
-                        string[] songsToRemove = Console.ReadLine().Split(", ");
+                        var songsToRemove = WriteSongs();
 
-                        foreach (string song in songsToRemove)
+                        foreach (var song in songsToRemove)
                         {
-                            if (Storage.Songs.ContainsKey(song))
-                            {
-                                artist.RemoveSongsFromAlbum(Storage.Songs[song], album);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Song as {0} does not exists!", song);
-                            }
+
+                            artist.RemoveSongsFromAlbum(song, album);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("There is no playlist with this name!");
+                        Console.WriteLine("There is no album with this name!");
                     }
 
                     Console.WriteLine(Constants.WAITING_NEXT_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
+
                 case (int)Constants.artistMenu.logout:
                     Console.WriteLine("Logged out...");
                     file.WriteToFile(Storage.GenerateData());
                     break;
+
                 default:
                     LoginDisplay();
                     break;
@@ -432,5 +430,69 @@ namespace PeshoFy.Classes
             }
         }
 
+        public static List<Song> WriteSongs()
+        {
+            string[] songsToAdd = Console.ReadLine().Split(", ");
+            List<Song> albumSongs = new List<Song>();
+
+            foreach (string song in songsToAdd)
+            {
+                if (Storage.Songs.ContainsKey(song) && song != "")
+                {
+                    albumSongs.Add(Storage.Songs[song]);
+                }
+                else
+                {
+                    Console.WriteLine("Song as {0} does not exists!", song);
+                }
+            }
+
+            return albumSongs;
+        }
+
+        public static List<string> WriteGenres()
+        {
+            Console.WriteLine("Enter gengre/genres separated by ', ': ");
+            List<string> albumGenres = Console.ReadLine().Split(", ").ToList();
+
+            return albumGenres;
+        }
+
+        public static string WriteYear()
+        {
+            Console.WriteLine("Enter Year of Release: ");
+            string albumYear = Console.ReadLine();
+            return albumYear;
+        }
+
+        public static string WriteAlbumName()
+        {
+            Console.WriteLine("Enter album name: ");
+            string album = Console.ReadLine();
+
+            return album;
+        }
+
+        public static void SaveAlbum(Artist artist, Album album)
+        {
+            if (album != null && !Storage.Albums.ContainsKey(album.Name) && album.Songs.Count > 0)
+            {
+                Storage.Albums.Add(album.Name, album);
+                artist.Albums.Add(album);
+
+                Console.WriteLine("Album has been added successfully!");
+            }
+            else
+            {
+                Console.WriteLine("There was an error with creating the album");
+            }
+        }
+
+        public static void DeleteAlbum(Artist artist, string album)
+        {
+            artist.DeleteAlbum(album);
+            Storage.Albums.Remove(album);
+            Console.WriteLine("Album has been removed succesfully");
+        }
     }
 }
