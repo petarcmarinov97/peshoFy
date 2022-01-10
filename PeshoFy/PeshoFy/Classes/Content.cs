@@ -21,9 +21,9 @@ namespace PeshoFy.Classes
         public string Duration { get => duration; set => duration = value; }
         public string Name { get => name; set => name = value; }
 
-        virtual public string GetDurationTime()
+        virtual public string GetInfo()
         {
-            return Duration;
+            return "";
         }
     }
 }
