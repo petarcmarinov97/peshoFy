@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PeshoFy.Classes
 {
-    internal interface IUser
+    public interface IUser
     {
         string DateOfBirth { get; set; }
         string FullName { get; set; }
@@ -11,6 +11,6 @@ namespace PeshoFy.Classes
         string Password { get; set; }
         string Username { get; set; }
 
-        void PrintCollection(Constants.typeCollection type);
+        public void PrintCollection(Constants.typeCollection type);
     }
 }

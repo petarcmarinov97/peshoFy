@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PeshoFy.Classes
 {
-    internal class PlayList : Content, ISongsContainer
+    public class PlayList : Content, ISongsContainer
     {
         private Listener listener;
         private List<string> genres;

@@ -1,6 +1,6 @@
 ﻿namespace PeshoFy.Classes
 {
-    internal interface IContent
+    public interface IContent
     {
         string Duration { get; set; }
         string Name { get; set; }

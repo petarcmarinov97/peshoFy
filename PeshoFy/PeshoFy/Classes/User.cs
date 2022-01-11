@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PeshoFy.Classes
 {
-    internal class User : IUser
+    public class User : IUser
     {
         private string username;
         private string password;
