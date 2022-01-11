@@ -433,20 +433,17 @@ namespace PeshoFy.Classes
 
         public static string WriteName(Constants.typeName type)
         {
-            string name = string.Empty;
             if (type == Constants.typeName.album)
             {
                 Console.WriteLine("Enter album name: ");
-                name = Console.ReadLine();
             }
 
             if (type == Constants.typeName.playlist)
             {
                 Console.WriteLine("Enter playlist name: ");
-                name = Console.ReadLine();
             }
 
-            return name;
+            return Console.ReadLine();
         }
 
         public static void SaveAlbum(Artist artist, Album album)
