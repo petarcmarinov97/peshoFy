@@ -419,16 +419,13 @@ namespace PeshoFy.Classes
         public static List<string> WriteGenres()
         {
             Console.WriteLine("Enter gengre/genres separated by ', ': ");
-            List<string> albumGenres = Console.ReadLine().Split(", ").ToList();
-
-            return albumGenres;
+            return Console.ReadLine().Split(", ").ToList();
         }
 
         public static string WriteYear()
         {
             Console.WriteLine("Enter Year of Release: ");
-            string albumYear = Console.ReadLine();
-            return albumYear;
+            return Console.ReadLine();
         }
 
         public static string WriteName(Constants.typeName type)
