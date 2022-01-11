@@ -29,7 +29,7 @@ namespace PeshoFy.Classes
 
         public static void EnterOption()
         {
-            isValidInput(Constants.typeDisplay.choicesDisplay);
+            IsValidInput(Constants.typeDisplay.choicesDisplay);
             switch (input)
             {
                 case (int)Constants.acceptOptions.login:
@@ -67,7 +67,7 @@ namespace PeshoFy.Classes
             Artist artist = Storage.Artists[username];
             ShowArtistDisplay();
 
-            isValidInput(Constants.typeDisplay.artistDisplay);
+            IsValidInput(Constants.typeDisplay.artistDisplay);
             switch (input)
             {
                 case (int)Constants.artistMenu.printInfoAboutMe:
@@ -180,6 +180,7 @@ namespace PeshoFy.Classes
                     break;
 
                 default:
+                    Console.WriteLine(Constants.WRONG_COMMAND_MESSAGE);
                     LoginDisplay();
                     break;
             }
@@ -189,7 +190,7 @@ namespace PeshoFy.Classes
         {
             Listener listener = Storage.Listeners[username];
             ShowListenerDisplay();
-            isValidInput(Constants.typeDisplay.listenerDisplay);
+            IsValidInput(Constants.typeDisplay.listenerDisplay);
             switch (input)
             {
                 case (int)Constants.listenerMenu.printInfoAboutMe:
@@ -368,57 +369,30 @@ namespace PeshoFy.Classes
             Console.Write("Your choise: ");
         }
 
-        public static void isValidInput(Constants.typeDisplay typeDisplay)
+        public static void IsValidInput(Constants.typeDisplay typeDisplay)
         {
-            if (typeDisplay == Constants.typeDisplay.choicesDisplay)
+            bool validInput = false;
+            try
             {
-                bool validInput = false;
-                try
+                validInput = int.TryParse(Console.ReadLine(), out input);
+                if (typeDisplay == Constants.typeDisplay.choicesDisplay && (validInput && (input < 1 || input > 2)))
                 {
-                    validInput = int.TryParse(Console.ReadLine(), out input);
-                    if (validInput && (input < 1 || input > 2))
-                    {
-                        validInput = false;
-                    }
+                    validInput = false;
                 }
-                catch
+
+                if (typeDisplay == Constants.typeDisplay.artistDisplay && (validInput && (input < 1 || input > 8)))
                 {
-                    throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
+                    validInput = false;
+                }
+
+                if (typeDisplay == Constants.typeDisplay.listenerDisplay && (validInput && (input < 1 || input > 11)))
+                {
+                    validInput = false;
                 }
             }
-
-            if (typeDisplay == Constants.typeDisplay.artistDisplay)
+            catch
             {
-                bool validInput = false;
-                try
-                {
-                    validInput = int.TryParse(Console.ReadLine(), out input);
-                    if (validInput && (input < 1 || input > 8))
-                    {
-                        validInput = false;
-                    }
-                }
-                catch
-                {
-                    throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
-                }
-            }
-
-            if (typeDisplay == Constants.typeDisplay.listenerDisplay)
-            {
-                bool validInput = false;
-                try
-                {
-                    validInput = int.TryParse(Console.ReadLine(), out input);
-                    if (validInput && (input < 1 || input > 11))
-                    {
-                        validInput = false;
-                    }
-                }
-                catch
-                {
-                    throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
-                }
+                throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
             }
         }
 
