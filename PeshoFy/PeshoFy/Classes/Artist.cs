@@ -40,7 +40,7 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public override void PrintCollection(Constants.typeCollection type)
+        public override string PrintCollection(Constants.typeCollection type)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -75,9 +75,10 @@ namespace PeshoFy.Classes
             }
 
             Console.WriteLine(sb.ToString());
+            return sb.ToString();
         }
 
-        public override void PrintCollectionInfo(string albumName)
+        public override string PrintCollectionInfo(string albumName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -87,11 +88,12 @@ namespace PeshoFy.Classes
             }
             else
             {
-                Album currentAlbum = Storage.Albums[albumName];
+                Album currentAlbum = this.Albums.Find(album => album.Name == albumName);
                 sb.Append(currentAlbum.GetInfo());
             }
-
-            Console.Write("\n{0}", sb.ToString());
+            Console.WriteLine();
+            Console.WriteLine(sb.ToString());
+            return sb.ToString();
         }
 
         public Album CreateAlbum(string name, List<string> genres, string year, List<Song> songsToAdd)

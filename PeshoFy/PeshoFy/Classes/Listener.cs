@@ -65,7 +65,7 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public override void PrintCollection(Constants.typeCollection type)
+        public override string PrintCollection(Constants.typeCollection type)
         {
             StringBuilder sb = new StringBuilder();
             switch (type)
@@ -101,7 +101,6 @@ namespace PeshoFy.Classes
                         }
                     }
 
-                    Console.WriteLine(sb.ToString());
                     break;
 
                 case Constants.typeCollection.favorites:
@@ -122,12 +121,13 @@ namespace PeshoFy.Classes
                         }
                     }
 
-                    Console.WriteLine(sb.ToString());
                     break;
             }
+
+            return sb.ToString();
         }
 
-        public override void PrintCollectionInfo(string playlistName)
+        public override string PrintCollectionInfo(string playlistName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -142,6 +142,7 @@ namespace PeshoFy.Classes
             }
 
             Console.Write("\n{0}", sb.ToString());
+            return sb.ToString();
         }
 
         public PlayList CreatePlayList(string name, List<string> genres, List<Song> songsToAdd)
