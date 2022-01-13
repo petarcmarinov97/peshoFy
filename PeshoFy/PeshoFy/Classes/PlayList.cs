@@ -68,7 +68,7 @@ namespace PeshoFy.Classes
 
             if (this.Songs.Count == 0)
             {
-                result.Append("\nThere are no songs in the Album!\n");
+                result.Append("\nThere are no songs in the Playlist!\n");
             }
             else
             {
@@ -77,7 +77,7 @@ namespace PeshoFy.Classes
                 int minutes = 0;
                 int seconds = 0;
 
-                result.Append(String.Format("\nSongs in the album:\n"));
+                result.Append(String.Format("\nSongs in the Playlist:\n"));
                 foreach (Song song in this.Songs)
                 {
                     string[] songData = song.Duration.Split(":");
@@ -137,7 +137,7 @@ namespace PeshoFy.Classes
             string outputMinutes = minutes < 10 ? "0" + minutes.ToString() : minutes.ToString();
             string outputSeconds = seconds < 10 ? "0" + seconds.ToString() : seconds.ToString();
 
-            result.Append(String.Format("Album Duration: {0}:{1}:{2}\n", outputHours, outputMinutes, outputSeconds));
+            result.Append(String.Format("Playlist Duration: {0}:{1}:{2}\n", outputHours, outputMinutes, outputSeconds));
 
             return result.ToString();
         }

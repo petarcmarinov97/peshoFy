@@ -137,7 +137,7 @@ namespace PeshoFy.Classes
             }
             else
             {
-                PlayList currentPlaylist = Storage.Playlists[playlistName];
+                PlayList currentPlaylist = this.PlayLists.Find(playlist => playlist.Name == playlistName);
                 sb.Append(currentPlaylist.GetInfo());
             }
 

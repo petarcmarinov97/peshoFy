@@ -93,7 +93,7 @@ namespace PeshoFy.Tests
         {
             var result = _sutPlaylist.GetDurationResult(10, 49, 15);
 
-            string expected = $"Album Duration: {10}:{49}:{15}\n";
+            string expected = $"Playlist Duration: {10}:{49}:{15}\n";
 
             Assert.AreEqual(expected, result);
         }
@@ -103,7 +103,7 @@ namespace PeshoFy.Tests
         {
             var result = _sutPlaylist.GetDurationResult(7, 3, 5);
 
-            string expected = $"Album Duration: 0{7}:0{3}:0{5}\n";
+            string expected = $"Playlist Duration: 0{7}:0{3}:0{5}\n";
 
             Assert.AreEqual(expected, result);
         }
@@ -116,7 +116,7 @@ namespace PeshoFy.Tests
             _sutPlaylist.Songs = _sutSongs;
 
             var result = _sutPlaylist.GetSongsInfo();
-            string expected = "\nSongs in the album:\n   1." + $" {_sutFirstSong.Name}\n   2." + $" {_sutSecondSong.Name}\nAlbum Duration: 00:08:00\n";
+            string expected = "\nSongs in the Playlist:\n   1." + $" {_sutFirstSong.Name}\n   2." + $" {_sutSecondSong.Name}\nPlaylist Duration: 00:08:00\n";
 
             Assert.AreEqual(expected, result);
         }
@@ -125,7 +125,7 @@ namespace PeshoFy.Tests
         public void GetSongsInfo_Successfully_When_DoNotHave()
         {
             var result = _sutPlaylist.GetSongsInfo();
-            string expected = "\nThere are no songs in the Album!\n";
+            string expected = "\nThere are no songs in the Playlist!\n";
 
             Assert.AreEqual(expected, result);
         }
@@ -146,7 +146,7 @@ namespace PeshoFy.Tests
 
             expected.Append(string.Format("Playlist name: {0}\n", _sutPlaylist.Name));
             expected.Append("Genres: " + "rock " + "metal ");
-            expected.Append("\nSongs in the album:\n   1." + $" {_sutFirstSong.Name}\n   2." + $" {_sutSecondSong.Name}\nAlbum Duration: 00:08:00\n");
+            expected.Append("\nSongs in the Playlist:\n   1." + $" {_sutFirstSong.Name}\n   2." + $" {_sutSecondSong.Name}\nPlaylist Duration: 00:08:00\n");
 
             Assert.AreEqual(expected.ToString(), result.ToString());
         }
