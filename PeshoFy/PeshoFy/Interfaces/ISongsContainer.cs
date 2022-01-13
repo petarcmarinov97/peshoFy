@@ -2,7 +2,7 @@
 
 namespace PeshoFy.Classes
 {
-    internal interface ISongsContainer
+    public interface ISongsContainer
     {
         List<Song> Songs { get; set; }
     }

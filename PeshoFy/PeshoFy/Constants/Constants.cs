@@ -1,6 +1,6 @@
 ﻿namespace PeshoFy.Classes
 {
-    class Constants
+    public class Constants
     {
         public const string FILE_PATH = "C:\\Git Repos\\peshoFy\\PeshoFy\\PeshoFy\\DataBase\\DataBase.txt";
         public const string ARTIST = "artist";
@@ -9,6 +9,12 @@
         public const string OPTIONS_MESSAGE = "[1] login\n[2] register\nInput your choice: ";
         public const string WRONG_COMMAND_MESSAGE = "Wrong command, try again !\n";
         public const string WAITING_NEXT_COMMAND_MESSAGE = "\nWaiting for the next command...\n";
+        
+        public enum typeName
+        {
+            album = 1,
+            playlist= 2,
+        }
         public enum typeCollection
         {
             playlists = 1,

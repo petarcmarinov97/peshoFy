@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PeshoFy.Classes
 {
-    class Listener : User
+    public class Listener : User
     {
         private List<Song> favoriteSongs;
         private List<PlayList> playLists;
@@ -65,7 +65,7 @@ namespace PeshoFy.Classes
             return sb.ToString();
         }
 
-        public override void PrintCollection(Constants.typeCollection type)
+        public override string PrintCollection(Constants.typeCollection type)
         {
             StringBuilder sb = new StringBuilder();
             switch (type)
@@ -101,7 +101,6 @@ namespace PeshoFy.Classes
                         }
                     }
 
-                    Console.WriteLine(sb.ToString());
                     break;
 
                 case Constants.typeCollection.favorites:
@@ -122,12 +121,13 @@ namespace PeshoFy.Classes
                         }
                     }
 
-                    Console.WriteLine(sb.ToString());
                     break;
             }
+
+            return sb.ToString();
         }
 
-        public override void PrintCollectionInfo(string playlistName)
+        public override string PrintCollectionInfo(string playlistName)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -137,88 +137,55 @@ namespace PeshoFy.Classes
             }
             else
             {
-                PlayList currentPlaylist = Storage.Playlists[playlistName];
+                PlayList currentPlaylist = this.PlayLists.Find(playlist => playlist.Name == playlistName);
                 sb.Append(currentPlaylist.GetInfo());
             }
 
             Console.Write("\n{0}", sb.ToString());
+            return sb.ToString();
         }
 
-        public PlayList CreatePlayList(string name, List<string> genres)
+        public PlayList CreatePlayList(string name, List<string> genres, List<Song> songsToAdd)
         {
-            PlayList playlist = PlayLists.Find(playlist => playlist.Name == name);
-
-            if (playlist == null)
-            {
-                List<Song> songs = new List<Song>();
-                Listener listener = Storage.Listeners[this.Username];
-                PlayList playlistToReturn = new PlayList(name, songs, listener, genres);
-
-                Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                string[] songsToAdd = Console.ReadLine().Split(", ");
-
-                foreach (string song in songsToAdd)
-                {
-                    if (Storage.Songs.ContainsKey(song))
-                    {
-                        playlistToReturn.Songs.Add(Storage.Songs[song]);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Song as {0} does not exists!", song);
-                    }
-                }
-
-                return playlistToReturn;
-            }
-            else
-            {
-                Console.WriteLine("Playlist already exists!");
-            }
-
-            return null;
+            return new PlayList(name, songsToAdd, this, genres);
         }
 
         public void DeletePlayList(string name)
         {
-            PlayList playlist = PlayLists.Find(playlist => playlist.Name == name);
-
-            if (playlist == null)
-            {
-                Console.WriteLine("Album with this name does not exist!");
-            }
-            else
-            {
-                Console.WriteLine("Album has been removed succesfully");
-                PlayLists.Remove(playlist);
-            }
+            this.PlayLists.Remove(this.PlayLists.Find(playlist => playlist.Name == name));
         }
 
         public void AddSongsToPlaylist(Song songtoAdd, string playlistName)
         {
-            PlayList playlist = this.playLists.Find(playlist => playlist.Name == playlistName);
+            var currentPlaylist = this.playLists.Find(playlist => playlist.Name == playlistName);
 
-            if (playlist == null)
+            if (currentPlaylist.Songs.Count == 0 || !currentPlaylist.Songs.Contains(songtoAdd))
             {
-                Console.Write("There is no album with this name\n");
+                currentPlaylist.AddSong(songtoAdd);
+                Console.WriteLine("The song {0} has been added to the Playlist\n", songtoAdd.Name);
             }
             else
             {
-                playlist.AddSong(songtoAdd);
+                Console.WriteLine("The song {0} is already in this Playlist!\n", songtoAdd.Name);
             }
         }
 
         public void RemoveSongsFromPlaylist(Song songToRemove, string playlistName)
         {
-            PlayList playlist = Storage.Playlists[playlistName];
+            var currentplaylist = this.playLists.Find(playlist => playlist.Name == playlistName);
 
-            if (playlist == null)
+            if (currentplaylist.Songs.Count == 0)
             {
-                Console.Write("There is no album with this name\n");
+                Console.WriteLine("There is no Songs in the Playlist!\n");
+            }
+            else if (currentplaylist.Songs.Contains(songToRemove))
+            {
+                currentplaylist.RemoveSong(songToRemove);
+                Console.WriteLine("The song {0} has been removed from the Playlist\n", songToRemove.Name);
             }
             else
             {
-                playlist.RemoveSong(songToRemove);
+                Console.WriteLine("A song with this name do not exist in the Playlist!\n");
             }
         }
 
@@ -226,7 +193,7 @@ namespace PeshoFy.Classes
         {
             if (FavoriteSongs.Contains(songToAdd))
             {
-                Console.WriteLine("Song {0} is already in the playlist", songToAdd.Name);
+                Console.WriteLine("Song {0} is already in Favorites", songToAdd.Name);
             }
             else
             {

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace PeshoFy.Classes
 {
-    internal class User : IUser
+    public class User : IUser
     {
         private string username;
         private string password;
@@ -49,9 +49,15 @@ namespace PeshoFy.Classes
 
             return sb.ToString();
         }
-        
-        virtual public void PrintCollection(Constants.typeCollection type) { }
-        
-        virtual public void PrintCollectionInfo(string collectionName) { }
+
+        virtual public string PrintCollection(Constants.typeCollection type)
+        {
+            return "";
+        }
+
+        virtual public string PrintCollectionInfo(string collectionName)
+        {
+            return "";
+        }
     }
 }

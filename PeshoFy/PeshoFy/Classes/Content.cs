@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PeshoFy.Classes
 {
-    class Content : IContent
+    public class Content : IContent
     {
         private string name;
         private string duration;

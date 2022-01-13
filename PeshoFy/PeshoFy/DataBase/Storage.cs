@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PeshoFy.Classes
 {
-    static class Storage
+    public static class Storage
     {
         static Dictionary<string, string> userTypes = new Dictionary<string, string>();
         static Dictionary<string, Listener> listeners = new Dictionary<string, Listener>();
