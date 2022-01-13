@@ -7,7 +7,7 @@ namespace PeshoFy.Classes
     public class PlayList : Content, ISongsContainer
     {
         private Listener listener;
-        private List<string> genres;
+        private List<string> genres = new List<string>();
         private List<Song> songs = new List<Song>();
         public PlayList(string name) : base(name)
         {
@@ -19,8 +19,8 @@ namespace PeshoFy.Classes
             this.Songs = songs;
         }
         public Listener Listener { get => listener; set => listener = value; }
-        public List<string> Genres { get => genres; set => genres = value; }
         public List<Song> Songs { get => songs; set => songs = value; }
+        public List<string> Genres { get => genres; set => genres = value; }
 
         public void AddSong(Song songToAdd)
         {
@@ -36,8 +36,8 @@ namespace PeshoFy.Classes
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(String.Format("Playlist name: {0}\n", this.Name));
-            sb.Append(GetGenresInfo());
-            sb.Append(GetSongsInfo());
+            sb.Append(String.Format(GetGenresInfo()));
+            sb.Append(String.Format(GetSongsInfo()));
 
             return sb.ToString();
         }
@@ -45,18 +45,18 @@ namespace PeshoFy.Classes
         public string GetGenresInfo()
         {
             StringBuilder result = new StringBuilder();
-            result.Append("Genres: ");
 
-            if (this.Genres != null)
+            if (this.Genres.Count < 1)
             {
+                result.Append("Genres: do not have genres");
+            }
+            else
+            {
+                result.Append("Genres: ");
                 foreach (string genre in this.Genres)
                 {
                     result.Append(String.Format("{0} ", genre));
                 }
-            }
-            else
-            {
-                result.Append("do not have genres");
             }
 
             return result.ToString();

@@ -150,7 +150,7 @@ namespace PeshoFy.Tests
             StringBuilder expected = new StringBuilder();
             expected.Append("Album name: Obseben\n");
             expected.Append("Year: 1997\n");
-            expected.Append("Genres: \n");
+            expected.Append("Genres: do not have genres\n");
             expected.Append("There are no songs in the Album!\n");
 
             var results = _sutArtist.PrintCollectionInfo("Obseben");

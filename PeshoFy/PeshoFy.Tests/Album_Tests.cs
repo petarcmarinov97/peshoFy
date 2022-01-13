@@ -63,6 +63,19 @@ namespace PeshoFy
         }
 
         [Test]
+        public void GetGenres_Fail()
+        {
+            //Arrange
+            _sutAlbum.Genres = _sutGenres;
+            //Act 
+            var expectedResult = "Genres: " + "do not have genres";
+            var result = _sutAlbum.GetGenresInfo();
+
+            //Assert
+            Assert.AreEqual(expectedResult, result);
+        }
+
+        [Test]
         public void CalcsTime_Successfully_Without_Hour()
         {
             string[] sutData = { "04", "15" };

@@ -160,7 +160,6 @@ namespace PeshoFy.Tests
         [Test]
         public void PrintCollectionInfo_Successfully_Without_Genres()
         {
-            _sutPlaylistGenres.Add("rock");
             _sutListener.Genres = _sutPlaylistGenres;
             _sutListener.PlayLists.Add(_sutPlaylist);
 

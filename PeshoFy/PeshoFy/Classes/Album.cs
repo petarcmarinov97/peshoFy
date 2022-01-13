@@ -7,7 +7,7 @@ namespace PeshoFy.Classes
     public class Album : Content, ISongsContainer
     {
         private Artist artist;
-        private List<string> genres;
+        private List<string> genres = new List<string>();
         private string releaseDate;
         private List<Song> songs = new List<Song>();
         public Album(string name) : base(name)
@@ -51,11 +51,18 @@ namespace PeshoFy.Classes
         public string GetGenresInfo()
         {
             StringBuilder result = new StringBuilder();
-            result.Append("Genres: ");
 
-            foreach (string genre in this.Genres)
+            if (this.Genres.Count == 0)
             {
-                result.Append(String.Format("{0} ", genre));
+                result.Append("Genres: do not have genres");
+            }
+            else
+            {
+                result.Append("Genres: ");
+                foreach (string genre in this.Genres)
+                {
+                    result.Append(String.Format("{0} ", genre));
+                }
             }
 
             return result.ToString();
