@@ -53,9 +53,16 @@ namespace PeshoFy.Classes
             StringBuilder result = new StringBuilder();
             result.Append("Genres: ");
 
-            foreach (string genre in this.Genres)
+            if (this.Genres != null)
             {
-                result.Append(String.Format("{0} ", genre));
+                foreach (string genre in this.Genres)
+                {
+                    result.Append(String.Format("{0} ", genre));
+                }
+            }
+            else
+            {
+                result.Append("do not have genres");
             }
 
             return result.ToString();
