@@ -98,7 +98,7 @@ namespace PeshoFy.Classes
                     if (artist.Albums.Find(x => x.Name == album) == null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        var albumSongs = WriteSongs();
+                        var albumSongs = WriteSongsToAdd();
 
                         Album newAlbum = artist.CreateAlbum(album, albumGenres, albumYear, albumSongs);
                         SaveAlbum(artist, newAlbum);
@@ -134,7 +134,7 @@ namespace PeshoFy.Classes
                     if (Storage.Albums.ContainsKey(album) && artist.Albums.Find(x => x.Name == album) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        var songsToAdd = WriteSongs();
+                        var songsToAdd = WriteSongsToAdd();
 
                         foreach (var song in songsToAdd)
                         {
@@ -157,7 +157,7 @@ namespace PeshoFy.Classes
                     if (Storage.Albums.ContainsKey(album) && artist.Albums.Find(x => x.Name == album) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be removed, seperated by ', ' :");
-                        var songsToRemove = WriteSongs();
+                        var songsToRemove = WriteSongsToAdd();
 
                         foreach (var song in songsToRemove)
                         {
@@ -225,7 +225,7 @@ namespace PeshoFy.Classes
                     if (listener.PlayLists.Find(x => x.Name == playlistName) == null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        var playlistSongs = WriteSongs();
+                        var playlistSongs = WriteSongsToAdd();
 
                         PlayList newPlaylist = listener.CreatePlayList(playlistName, playlistGengres, playlistSongs);
                         SavePlaylist(listener, newPlaylist);
@@ -261,7 +261,7 @@ namespace PeshoFy.Classes
                     if (Storage.Playlists.ContainsKey(playlistName) && listener.PlayLists.Find(x => x.Name == playlistName) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                        var songsToAdd = WriteSongs();
+                        var songsToAdd = WriteSongsToAdd();
 
                         foreach (var song in songsToAdd)
                         {
@@ -283,7 +283,7 @@ namespace PeshoFy.Classes
                     if (Storage.Playlists.ContainsKey(playlistName) && listener.PlayLists.Find(x => x.Name == playlistName) != null)
                     {
                         Console.WriteLine("Write the songs that you want to be removed, seperated by ', ' :");
-                        var songsToRemove = WriteSongs();
+                        var songsToRemove = WriteSongsToAdd();
 
                         foreach (var song in songsToRemove)
                         {
@@ -301,7 +301,7 @@ namespace PeshoFy.Classes
 
                 case (int)Constants.listenerMenu.addSongsToFavorites:
                     Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                    var songsToFavorites = WriteSongs();
+                    var songsToFavorites = WriteSongsToAdd();
 
                     foreach (var song in songsToFavorites)
                     {
@@ -369,7 +369,7 @@ namespace PeshoFy.Classes
             Console.Write("Your choise: ");
         }
 
-        public static void IsValidInput(Constants.typeDisplay typeDisplay)
+        public static bool IsValidInput(Constants.typeDisplay typeDisplay)
         {
             bool validInput = false;
             try
@@ -394,9 +394,11 @@ namespace PeshoFy.Classes
             {
                 throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
             }
+
+            return validInput;
         }
 
-        public static List<Song> WriteSongs()
+        public static List<Song> WriteSongsToAdd()
         {
             string[] songsToAdd = Console.ReadLine().Split(", ");
             List<Song> songsToReturn = new List<Song>();

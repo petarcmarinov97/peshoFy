@@ -158,7 +158,7 @@ namespace PeshoFy.Classes
         {
             var currentPlaylist = this.playLists.Find(playlist => playlist.Name == playlistName);
 
-            if (currentPlaylist.Songs.Count == 0 || !currentPlaylist.Songs.Contains(songtoAdd))
+            if (!currentPlaylist.Songs.Contains(songtoAdd))
             {
                 currentPlaylist.AddSong(songtoAdd);
                 Console.WriteLine("The song {0} has been added to the Playlist\n", songtoAdd.Name);

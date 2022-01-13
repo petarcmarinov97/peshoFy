@@ -30,7 +30,6 @@ namespace PeshoFy.Classes
             Songs.Add(songToAdd);
         }
 
-
         public void RemoveSong(Song songToRemove)
         {
             Songs.Remove(songToRemove);

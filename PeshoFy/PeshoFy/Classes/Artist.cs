@@ -108,7 +108,7 @@ namespace PeshoFy.Classes
         {
             var currentAlbum = this.Albums.Find(album => album.Name == albumName);
 
-            if (currentAlbum.Songs.Count == 0 || !currentAlbum.Songs.Contains(songToAdd))
+            if (!currentAlbum.Songs.Contains(songToAdd))
             {
                 currentAlbum.AddSong(songToAdd);
                 Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
