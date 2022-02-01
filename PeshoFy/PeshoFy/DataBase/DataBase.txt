@@ -1,5 +1,6 @@
 <artist><S><1><Stanislav Slanev>[12/8/1959](genres: ['pop', 'rock'])(albums: ['Obseben', 'Rock'])</artist>
 <artist><Petarcm97><123><Petar Marinov>[14/10/1997](genres: ['rock', 'metal'])(albums: ['Black Album'])</artist>
+<artist><boi4o6><123><Boyko Iliev>[14/10/1993](genres: ['rock', 'metal'])(albums: [])</artist>
 <listener><Go6koy><123><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: [])</listener>
 <listener><petarcm97><123><Petar Marinov>[14/10/1997](genres: ['rap', 'pop'])(likedSongs: ['Sad but True'])(playlists: ['Black Playlist', 'ChalgaMix2021'])</listener>
 <listener><gosho><123><GOsho Ivanov>[14/10/1993](genres: ['rock', 'metal'])(likedSongs: ['Yarost'])(playlists: ['OnlyRock'])</listener>

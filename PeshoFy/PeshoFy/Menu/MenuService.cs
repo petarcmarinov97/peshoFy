@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Linq;
 
 namespace PeshoFy.Classes
@@ -9,7 +9,6 @@ namespace PeshoFy.Classes
     {
         private static string welcome = string.Empty;
         private static string options = string.Empty;
-        private static int input;
         private static string username;
         private static string accountType;
         private static FileWriter file = new FileWriter();
@@ -29,8 +28,8 @@ namespace PeshoFy.Classes
 
         public static void EnterOption()
         {
-            IsValidInput(Constants.typeDisplay.choicesDisplay);
-            switch (input)
+            int tempInput = IsValidInput(Constants.typeDisplay.choicesDisplay);
+            switch (tempInput)
             {
                 case (int)Constants.acceptOptions.login:
                     Login.LoginUser();
@@ -67,8 +66,8 @@ namespace PeshoFy.Classes
             Artist artist = Storage.Artists[username];
             ShowArtistDisplay();
 
-            IsValidInput(Constants.typeDisplay.artistDisplay);
-            switch (input)
+            int tempInput = IsValidInput(Constants.typeDisplay.artistDisplay);
+            switch (tempInput)
             {
                 case (int)Constants.artistMenu.printInfoAboutMe:
                     Console.WriteLine(artist.ToString());
@@ -190,8 +189,8 @@ namespace PeshoFy.Classes
         {
             Listener listener = Storage.Listeners[username];
             ShowListenerDisplay();
-            IsValidInput(Constants.typeDisplay.listenerDisplay);
-            switch (input)
+            int tempInput= IsValidInput(Constants.typeDisplay.listenerDisplay);
+            switch (tempInput)
             {
                 case (int)Constants.listenerMenu.printInfoAboutMe:
                     Console.WriteLine(listener.ToString());
@@ -369,33 +368,25 @@ namespace PeshoFy.Classes
             Console.Write("Your choise: ");
         }
 
-        public static bool IsValidInput(Constants.typeDisplay typeDisplay)
+        public static int IsValidInput(Constants.typeDisplay typeDisplay)
         {
             bool validInput = false;
+            int input=-1;
+
             try
             {
                 validInput = int.TryParse(Console.ReadLine(), out input);
-                if (typeDisplay == Constants.typeDisplay.choicesDisplay && (validInput && (input < 1 || input > 2)))
+                if (typeDisplay == Constants.typeDisplay.choicesDisplay && !Regex.IsMatch(input.ToString(), @"^\d+$"))
                 {
-                    validInput = false;
-                }
-
-                if (typeDisplay == Constants.typeDisplay.artistDisplay && (validInput && (input < 1 || input > 8)))
-                {
-                    validInput = false;
-                }
-
-                if (typeDisplay == Constants.typeDisplay.listenerDisplay && (validInput && (input < 1 || input > 11)))
-                {
-                    validInput = false;
+                    throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
                 }
             }
-            catch
+            catch (FormatException fe)
             {
-                throw new FormatException(Constants.WRONG_COMMAND_MESSAGE);
+                Console.WriteLine(fe.Message);
             }
 
-            return validInput;
+            return input;
         }
 
         public static List<Song> WriteSongsToAdd()
@@ -487,6 +478,11 @@ namespace PeshoFy.Classes
             artist.DeleteAlbum(album);
             Storage.Albums.Remove(album);
             Console.WriteLine("Album has been removed succesfully");
+        }
+
+        private static bool ContainsOnlyDigits(string input)
+        {
+            return input.ToCharArray().All(char.IsDigit);
         }
     }
 }
