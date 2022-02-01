@@ -94,71 +94,47 @@ namespace PeshoFy.Classes
             Console.Write("\n{0}", sb.ToString());
         }
 
-        public Album CreateAlbum(string name, List<string> genres, string year)
+        public Album CreateAlbum(string name, List<string> genres, string year, List<Song> songsToAdd)
         {
-            if (Albums.Find(album => album.Name == name) == null)
-            {
-                Album albumToReturn = new Album(name, new List<Song>(), this, genres, year);
-
-                Console.WriteLine("Write the songs that you want to be added, separated by ', ' :");
-                string[] songsToAdd = Console.ReadLine().Split(", ");
-
-                foreach (string song in songsToAdd)
-                {
-                    if (Storage.Songs.ContainsKey(song))
-                    {
-                        albumToReturn.Songs.Add(Storage.Songs[song]);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Song as {0} does not exists!", song);
-                    }
-                }
-
-                return albumToReturn;
-            }
-            else
-            {
-                Console.WriteLine("Album already exists!");
-            }
-
-            return null;
+            return new Album(name, songsToAdd, this, genres, year);
         }
 
         public void DeleteAlbum(string albumName)
         {
-            if (this.Albums.Find(album => album.Name == albumName) == null)
-            {
-                Console.WriteLine("Album with this name does not exist!");
-            }
-            else
-            {
-                Console.WriteLine("Album has been removed succesfully");
-                this.Albums.Remove(this.Albums.Find(album => album.Name == albumName));
-            }
+            this.Albums.Remove(this.Albums.Find(album => album.Name == albumName));
         }
 
         public void AddSongsToAlbum(Song songToAdd, string albumName)
         {
-            if (this.Albums.Find(album => album.Name == albumName) == null)
+            var currentAlbum = this.Albums.Find(album => album.Name == albumName);
+
+            if (!currentAlbum.Songs.Contains(songToAdd))
             {
-                Console.Write("There is no album with this name\n");
+                currentAlbum.AddSong(songToAdd);
+                Console.WriteLine("The song {0} has been added to the Album\n", songToAdd.Name);
             }
             else
             {
-                this.Albums.Find(album => album.Name == albumName).AddSong(songToAdd);
+                Console.WriteLine("The song {0} is already in this Album!\n", songToAdd.Name);
             }
         }
 
         public void RemoveSongsFromAlbum(Song songToRemove, string albumName)
         {
-            if (this.Albums.Find(album => album.Name == albumName) == null)
+            var currentAlbum = this.Albums.Find(album => album.Name == albumName);
+
+            if (currentAlbum.Songs.Count == 0)
             {
-                Console.Write("There is no album with this name\n");
+                Console.WriteLine("There is no Songs in the Album!\n");
+            }
+            else if (currentAlbum.Songs.Contains(songToRemove))
+            {
+                currentAlbum.RemoveSong(songToRemove);
+                Console.WriteLine("The song {0} has been removed from the Album\n", songToRemove.Name);
             }
             else
             {
-                this.Albums.Find(album => album.Name == albumName).RemoveSong(songToRemove);
+                Console.WriteLine("A song with this name do not exist in the Album!\n");
             }
         }
     }
